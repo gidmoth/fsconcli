@@ -1,23 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+/**
+ * main component
+ */
 
-function App() {
+import './App.css';
+import { useState, useEffect } from 'react';
+import UserList from './components/UserList';
+
+function App(props) {
+
+  const [xmlState, setXmlState] = useState({
+    "op": "info/state",
+    "state": {
+      "info": {},
+      "globals": {},
+      "users": [],
+      "conferencetypes": [],
+      "conferences": []
+    }
+  })
+
+  useEffect(() => {
+    fetch('https://gsphone.c8h10n4o2.gs/api/info/state', {
+      method: 'GET',
+      credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+  }, [])
+
+  const {
+    info,
+    globals,
+    users,
+    conferencetypes,
+    conferences
+  } = xmlState.state
+
+  
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          {`fsconcli on ${window.location.origin}`}
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <UserList list={users} />
     </div>
   );
 }
