@@ -3,64 +3,52 @@
  */
 
 import './App.css';
-import { useState, useEffect } from 'react';
-import UserList from './components/UserList';
+import React, { useState, useEffect, Suspense } from 'react';
+
+const TeamApp = React.lazy(() => import('./TeamApp'))
 
 function App(props) {
 
-  // get control states and setters
-  const [mode, setMode] = useState('startpage')
-  const [initXml, setInitXml] = useState(true)
-  const [xmlState, setXmlState] = useState()
+    // get control states and setters
+    const [access, setAccess] = useState('gathering')
+    const [user, setUser] = useState({})
 
-  // effects on states
-  useEffect(() => {
-    if (initXml) {
-      fetch('https://gsphone.c8h10n4o2.gs/api/info/state', {
-        method: 'GET',
-        credentials: 'include'
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          setXmlState(data)
-          setInitXml(false)
+    // effect on states: get userinfo
+    useEffect(() => {
+        fetch(`${props.apiorigin}/userinfo`, {
+            method: 'GET',
+            credentials: 'include'
         })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setAccess(data.context)
+                setUser(data)
+            })
+    }, [])
+
+    // render according to usercontext
+    switch (access) {
+        case 'team': {
+            return (
+                <div className="App">
+                    <Suspense fallback={<p>Loading...</p>}>
+                        <TeamApp user={user} apiorigin={props.apiorigin}/>
+                    </Suspense>
+                </div>
+            );
+        }
+        case 'gathering': {
+            return (
+                <div className="App">
+                    <p>Gathering information...</p>
+                </div>
+            );
+        }
+        default: {
+            return null
+        }
     }
-  }, [initXml])
-
-  // variables for xmlState destructuring
-  let info, globals, users, conferencetypes, conferences
-
-  // conditional xmlState destructuring
-  if (xmlState) {
-    ({ info, globals, users, conferencetypes, conferences } = xmlState.state)
-  }
-
-  // checkbutton handler
-  function handleCheckButton() {
-    setInitXml(true)
-  }
-
-  // render according to state
-  switch  (mode) {
-    case 'startpage': {
-      return (
-        <div className="App">
-          <header className="App-header">
-            <p>
-              {`fsconcli on ${window.location.origin}`}
-            </p>
-          </header>
-          {users && <UserList list={users} />}
-          <button onClick={handleCheckButton}>reset initXml</button>
-        </div>
-      );
-    }
-    default: {
-      return null
-    }
-  }
 }
 
 export default App;
