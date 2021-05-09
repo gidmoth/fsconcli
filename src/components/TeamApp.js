@@ -3,13 +3,13 @@
  */
 
 import { useState, useEffect } from 'react';
-import UsersPage from './components/team/UsersPage';
-import StartPage from './components/team/StartPage'
+import Info from './team/Info'
+import AppHeader from './AppHeader'
 
 function TeamApp(props) {
 
   // get control states and setters
-  const [mode, setMode] = useState('startpage')
+  const [mode, setMode] = useState('info')
   const [initXml, setInitXml] = useState(true)
   const [xmlState, setXmlState] = useState()
 
@@ -44,36 +44,16 @@ function TeamApp(props) {
 
   // render according to mode
   switch (mode) {
-    case 'startpage': {
+    case 'info': {
       return (
         <>
-          <header className="App-header">
-            <p>
-              {`fsconcli on ${window.location.origin}`}
-            </p>
-          </header>
-          {globals && <StartPage
+          <AppHeader />
+          {globals && <Info
             users={users}
             globals={globals}
             conferences={conferences}
             conferencetypes={conferencetypes}
             info={info}
-            user={props.user}
-          />}
-          <button onClick={handleXmlChange}>reset initXml</button>
-        </>
-      );
-    }
-    case 'userpage': {
-      return (
-        <>
-          <header className="App-header">
-            <p>
-              {`fsconcli on ${window.location.origin}`}
-            </p>
-          </header>
-          {users && <UsersPage
-            users={users}
             user={props.user}
           />}
           <button onClick={handleXmlChange}>reset initXml</button>

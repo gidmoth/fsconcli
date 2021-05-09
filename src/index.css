@@ -1,13 +1,99 @@
+/* fonts */
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-Italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-Regular.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: url('./fonts/IBMPlexMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: url('./fonts/IBMPlexMono-Italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: url('./fonts/IBMPlexMono-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: url('./fonts/IBMPlexMono-BoldItalic.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'MaterialIcons';
+  src: url('./fonts/MaterialIcons-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* elements */
+html {
+  font-family: 'IBMPlexSans', sans-serif;
+  font-size: 16px;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'IBMPlexMono', monospace;
+}
+
+pre {
+  font-family: 'IBMPlexMono', monospace;
+}
+
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+}
+
+strong em {
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* classes */
+.RootDiv {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.symb {
+  font-family: 'MaterialIcons', fantasy;
 }

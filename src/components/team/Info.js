@@ -4,11 +4,11 @@
 
  import User from './User'
 
- //import './UserList.css';
+ //import './Info.css';
  
- function StartPage({users, globals, conferences, conferencetypes, info}) {
+ function Info({users, globals, conferences, conferencetypes, info}) {
      return (
-         <div className="StartPage">
+         <div>
              {
                  users.map(usr => <User key={usr.id} data={usr}/>)
              }
@@ -16,4 +16,4 @@
      )
  }
  
- export default StartPage;
+ export default Info;
