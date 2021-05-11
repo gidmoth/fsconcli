@@ -2,26 +2,48 @@
  * main component for team-context users
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Info from './team/Info'
+import Monitor from './team/Monitor'
 import AppHeader from './AppHeader'
 import useGetXmlState from './team/useGetXmlState'
+import { XmlContext } from './XmlContext'
+import { SocketContext } from './SocketContext'
 
 function TeamApp(props) {
 
   // get control states and setters
-  const [mode, setMode] = useState('info')
+  const [mode, setMode] = useState('monitor')
+
+  // get contexts
+  const { newxml } = useContext(XmlContext)
+  const { initsocket, socket } = useContext(SocketContext)
 
   // get xmlState
   const {
     loading,
-    info,
-    globals,
-    users,
-    conferencetypes,
-    conferences,
     handleXmlChange
-  } = useGetXmlState(props.apiorigin)
+  } = useGetXmlState(props.apiorigin, newxml)
+
+  // create socket connection
+  useEffect(() => {
+    const { password, name } = props.user
+    const urlbase = `wss://${props.apiorigin.split('//')[1]}`
+    initsocket(new WebSocket(`${urlbase}/api/live?login=${name}:${password}`))
+    console.log('socket initialized')
+    return () => {
+      socket.close()
+      console.log('socket closed')
+    }
+  }, [])
+
+  // connect to socket depending on user
+  /* const { password, name } = props.user
+  const urlbase = `wss://${props.apiorigin.split('//')[1]}`
+  console.log(urlbase)
+
+  const livesock = new WebSocket(`${urlbase}/api/live?login=${name}:${password}`)
+  console.log(livesock) */
 
   // render according to mode
   switch (mode) {
@@ -29,18 +51,19 @@ function TeamApp(props) {
       return (
         <>
           <AppHeader />
-          {globals && <Info
-            users={users}
-            globals={globals}
-            conferences={conferences}
-            conferencetypes={conferencetypes}
-            info={info}
-            user={props.user}
-          />}
+          <Info />
           {loading && <p>Loading...</p>}
           <button onClick={handleXmlChange} disabled={loading}>reset initXml</button>
         </>
       );
+    }
+    case 'monitor': {
+      return (
+        <>
+          <AppHeader />
+          <Monitor />
+        </>
+      )
     }
     default: {
       return null

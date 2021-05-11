@@ -5,22 +5,21 @@
 import { useState, useEffect } from 'react'
 import useFetch from './useFetch'
 
-function useGetXmlState(apiorigin) {
+function useGetXmlState(apiorigin, newxml) {
 
-    // get control states and setters
+    // get control state and setter
     const [initXml, setInitXml] = useState(true)
-    const [xmlState, setXmlState] = useState()
 
     // useFetch things
     const { get, loading } = useFetch(apiorigin)
 
-    // effects on states
+    // effect on context and state
     useEffect(() => {
         if (initXml) {
             get('/api/info/state')
                 .then(data => {
                     console.log(data)
-                    setXmlState(data)
+                    newxml(data)
                     setInitXml(false)
                 })
                 .catch(err => {
@@ -28,14 +27,6 @@ function useGetXmlState(apiorigin) {
                 })
         }
     }, [initXml])
-
-    // variables for xmlState destructuring
-    let info, globals, users, conferencetypes, conferences
-
-    // conditional xmlState destructuring
-    if (xmlState) {
-        ({ info, globals, users, conferencetypes, conferences } = xmlState.state)
-    }
 
     // xmlchange handler
     function handleXmlChange() {
@@ -45,11 +36,6 @@ function useGetXmlState(apiorigin) {
     // return for calling component
     return {
         loading: loading,
-        info: info,
-        globals: globals,
-        users: users,
-        conferencetypes: conferencetypes,
-        conferences: conferences,
         handleXmlChange: handleXmlChange
     }
 }

@@ -1,19 +1,29 @@
 /**
- * render a the startpage
+ * render the info
  */
 
- import User from './User'
+import { useContext } from 'react'
+import User from './User'
+import { XmlContext } from '../XmlContext'
 
- //import './Info.css';
- 
- function Info({users, globals, conferences, conferencetypes, info}) {
-     return (
-         <div>
-             {
-                 users.map(usr => <User key={usr.id} data={usr}/>)
-             }
-         </div>
-     )
- }
- 
- export default Info;
+//import './Info.css';
+
+
+function Info() {
+
+    const { xmlState } = useContext(XmlContext)
+
+    if (xmlState) {
+        return (
+            <div>
+                {
+                    xmlState.users.map(usr => <User key={usr.id} data={usr} />)
+                }
+            </div>
+        )
+    }
+    return <p>Loading...</p>
+
+}
+
+export default Info;

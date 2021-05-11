@@ -18,7 +18,8 @@ function User(props) {
     
     return (
         <div className="User">
-            Welcome {name}
+            User: {name}<br/>
+            email: {email}
         </div>
     )
 }

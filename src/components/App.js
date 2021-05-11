@@ -4,6 +4,9 @@
 
 import './App.css';
 import React, { useState, useEffect, Suspense } from 'react';
+import { XmlProvider } from './XmlContext'
+import { LiveProvider } from './LiveContext'
+import { SocketProvider } from './SocketContext'
 
 const TeamApp = React.lazy(() => import('./TeamApp'))
 
@@ -32,9 +35,15 @@ function App(props) {
         case 'team': {
             return (
                 <div className="App">
-                    <Suspense fallback={<p>Loading...</p>}>
-                        <TeamApp user={user} apiorigin={props.apiorigin}/>
-                    </Suspense>
+                    <SocketProvider>
+                        <LiveProvider>
+                            <XmlProvider>
+                                <Suspense fallback={<p>Loading...</p>}>
+                                    <TeamApp user={user} apiorigin={props.apiorigin} />
+                                </Suspense>
+                            </XmlProvider>
+                        </LiveProvider>
+                    </SocketProvider>
                 </div>
             );
         }
