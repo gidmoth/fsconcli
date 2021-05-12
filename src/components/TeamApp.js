@@ -7,8 +7,10 @@ import Info from './team/Info'
 import Monitor from './team/Monitor'
 import AppHeader from './AppHeader'
 import useGetXmlState from './team/useGetXmlState'
+import useInitSocket from './team/useInitSocket'
 import { XmlContext } from './XmlContext'
 import { SocketContext } from './SocketContext'
+import { LiveContext } from './LiveContext'
 
 function TeamApp(props) {
 
@@ -18,6 +20,7 @@ function TeamApp(props) {
   // get contexts
   const { newxml } = useContext(XmlContext)
   const { initsocket, socket } = useContext(SocketContext)
+  const { dispatcher } = useContext(LiveContext)
 
   // get xmlState
   const {
@@ -25,25 +28,10 @@ function TeamApp(props) {
     handleXmlChange
   } = useGetXmlState(props.apiorigin, newxml)
 
-  // create socket connection
-  useEffect(() => {
-    const { password, name } = props.user
-    const urlbase = `wss://${props.apiorigin.split('//')[1]}`
-    initsocket(new WebSocket(`${urlbase}/api/live?login=${name}:${password}`))
-    console.log('socket initialized')
-    return () => {
-      socket.close()
-      console.log('socket closed')
-    }
-  }, [])
-
-  // connect to socket depending on user
-  /* const { password, name } = props.user
-  const urlbase = `wss://${props.apiorigin.split('//')[1]}`
-  console.log(urlbase)
-
-  const livesock = new WebSocket(`${urlbase}/api/live?login=${name}:${password}`)
-  console.log(livesock) */
+  // init socket
+  const {
+    sockReady
+  } = useInitSocket(props.user, props.apiorigin, initsocket, socket, dispatcher)
 
   // render according to mode
   switch (mode) {
@@ -62,6 +50,7 @@ function TeamApp(props) {
         <>
           <AppHeader />
           <Monitor />
+          {!sockReady && <p>Initializing socket...</p>}
         </>
       )
     }
