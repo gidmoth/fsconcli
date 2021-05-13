@@ -25,6 +25,7 @@ function useInitSocket(user, apiorigin, initsocket, socket, dispatcher) {
             socket.onmessage = function(evn) {
                 dispatcher(JSON.parse(evn.data))
             }
+            console.log('listener setup!')
             return () => {
                 socket.close()
                 console.log('socket closed')

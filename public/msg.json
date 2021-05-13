@@ -1,0 +1,34 @@
+{
+    "reply": "init",
+    "data": [
+        {
+            "name": "Verlag_1",
+            "recording": {
+                "status": "norec"
+            },
+            "locked": false,
+            "floor": {
+                "name": "teststefan2",
+                "id": "21000",
+                "confid": "40",
+                "mute": true
+            },
+            "lastjoin": {
+                "name": "teststefan2",
+                "id": "21000",
+                "confid": "40",
+                "mute": true
+            },
+            "lastleave": {},
+            "memcount": 1,
+            "members": [
+                {
+                    "name": "teststefan2",
+                    "id": "21000",
+                    "confid": "40",
+                    "mute": true
+                }
+            ]
+        }
+    ]
+}
