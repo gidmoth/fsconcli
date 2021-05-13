@@ -33,12 +33,20 @@ function TeamApp(props) {
     sockReady
   } = useInitSocket(props.user, props.apiorigin, initsocket, socket, dispatcher)
 
+  // to pass down
+  function switchMode(newmode) {
+    setMode(newmode)
+  }
+
   // render according to mode
   switch (mode) {
     case 'info': {
       return (
         <>
-          <AppHeader />
+          <AppHeader
+            switchMode={switchMode}
+            apiorigin={props.apiorigin}
+          />
           <Info />
           {loading && <p>Loading...</p>}
           <button onClick={handleXmlChange} disabled={loading}>reset initXml</button>
@@ -48,7 +56,10 @@ function TeamApp(props) {
     case 'monitor': {
       return (
         <>
-          <AppHeader />
+          <AppHeader
+            switchMode={switchMode}
+            apiorigin={props.apiorigin}
+          />
           <Monitor />
           {!sockReady && <p>Initializing socket...</p>}
         </>
