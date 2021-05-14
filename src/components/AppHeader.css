@@ -1,3 +1,8 @@
+.headcontainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .App-header {
     background-color: #282c34;
     display: flex;
@@ -6,5 +11,21 @@
     color: white;
   }
 
+.meuBtn {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
 
+.meuTitle{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.phoneBtn{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
   
