@@ -1,7 +1,5 @@
 .MPcontainer {
   flex: 1;
-  max-width: 1024px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
 }

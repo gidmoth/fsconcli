@@ -3,25 +3,14 @@
  */
 
 import './AppHeader.css';
-import { useState, useEffect, useReducer } from 'react';
+import { useContext } from 'react';
 import MPcontainer from './MPcontainer'
-
-
-function reducer(state, action) {
-
-    //'expand_less'
-}
-
+import { HeadContext } from './HeadContext'
 
 function AppHeader(props) {
 
     // get control states and setters
-    const [mpstate, dispatch] = useReducer(reducer, {
-        collapsed: true,
-        show: 'menu',
-        phoneicn: 'phone_enabled',
-        menuicn: 'menu'
-    })
+    const { headdispatcher, headstate } = useContext(HeadContext)
 
     // destructure props
     const { switchMode, apiorigin } = props
@@ -29,14 +18,14 @@ function AppHeader(props) {
     return (
         <div className='headcontainer'>
             <header className="App-header">
-                <span className='meuBtn symb' onClick={() => dispatch({ type: 'menu' })}>
-                    {mpstate.menuicn}
+                <span className='meuBtn symb' onClick={() => headdispatcher({ type: 'menu' })}>
+                    {headstate.menuicn}
                 </span>
                 <span className='meuTitle'>
                     {`${apiorigin.split('//')[1].split('.')[0]}`}
                 </span>
-                <span className='phoneBtn symb' onClick={() => dispatch({ type: 'phone' })}>
-                    {mpstate.phoneicn}
+                <span className='phoneBtn symb' onClick={() => headdispatcher({ type: 'phone' })}>
+                    {headstate.phoneicn}
                 </span>
             </header>
             <MPcontainer />

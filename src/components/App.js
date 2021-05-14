@@ -7,6 +7,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { XmlProvider } from './XmlContext'
 import { LiveProvider } from './LiveContext'
 import { SocketProvider } from './SocketContext'
+import { HeadProvider } from './HeadContext'
 
 const TeamApp = React.lazy(() => import('./TeamApp'))
 
@@ -38,9 +39,11 @@ function App(props) {
                     <SocketProvider>
                         <LiveProvider>
                             <XmlProvider>
-                                <Suspense fallback={<p>Loading...</p>}>
-                                    <TeamApp user={user} apiorigin={props.apiorigin} />
-                                </Suspense>
+                                <HeadProvider>
+                                    <Suspense fallback={<p>Loading...</p>}>
+                                        <TeamApp user={user} apiorigin={props.apiorigin} />
+                                    </Suspense>
+                                </HeadProvider>
                             </XmlProvider>
                         </LiveProvider>
                     </SocketProvider>

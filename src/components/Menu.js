@@ -1,7 +1,10 @@
 import './Menu.css';
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { HeadContext } from './HeadContext'
 
 function Menu(props) {
+
+    const { headstate } = useContext(HeadContext)
 
     // get control states and setters
     
@@ -10,9 +13,10 @@ function Menu(props) {
 
 
     return (
-        <div className="Menu">
+        <div className={headstate.showmenu ? 'Menu' : 'MenuHidden'}>
             <p>
-                Placeholder for Menu
+                Placeholder for Menu<br/>
+                {headstate.showmenu && 'im visible!'}
             </p>
         </div>
     );

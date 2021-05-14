@@ -183,7 +183,7 @@ function LiveProvider(props) {
     // things to get used by components
     const value = {
         liveState: liveState,
-        dispatcher: dispatch,
+        dispatcher: dispatch
     }
 
     return (
