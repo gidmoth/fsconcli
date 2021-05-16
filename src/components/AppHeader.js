@@ -13,7 +13,7 @@ function AppHeader(props) {
     const { headdispatcher, headstate } = useContext(HeadContext)
 
     // destructure props
-    const { switchMode, apiorigin } = props
+    const { switchMode, apiorigin, mode } = props
 
     return (
         <div className='headcontainer'>
@@ -28,7 +28,7 @@ function AppHeader(props) {
                     {headstate.phoneicn}
                 </span>
             </header>
-            <MPcontainer />
+            <MPcontainer switchMode={switchMode} mode={mode}/>
         </div>
     );
 }

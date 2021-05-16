@@ -17,7 +17,7 @@ function Info() {
         return (
             <div>
                 {
-                    xmlState.users.map(usr => <User key={usr.id} data={usr} />)
+                    JSON.stringify(xmlState)
                 }
             </div>
         )

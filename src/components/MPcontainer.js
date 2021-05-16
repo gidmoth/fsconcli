@@ -5,15 +5,11 @@ import Menu from './Menu'
 
 function MPcontainer(props) {
 
-    // get control states and setters
-    
-
-    // effects on states
-
+    const { switchMode,  mode } = props
 
     return (
         <div className="MPcontainer">
-            <Menu />
+            <Menu switchMode={switchMode} mode={mode}/>
             <Phone />
         </div>
     );

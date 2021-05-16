@@ -15,7 +15,7 @@ import { LiveContext } from './LiveContext'
 function TeamApp(props) {
 
   // get control states and setters
-  const [mode, setMode] = useState('monitor')
+  const [mode, setMode] = useState('info')
 
   // get contexts
   const { newxml } = useContext(XmlContext)
@@ -46,6 +46,7 @@ function TeamApp(props) {
           <AppHeader
             switchMode={switchMode}
             apiorigin={props.apiorigin}
+            mode={mode}
           />
           <Info />
           {loading && <p>Loading...</p>}
@@ -59,6 +60,7 @@ function TeamApp(props) {
           <AppHeader
             switchMode={switchMode}
             apiorigin={props.apiorigin}
+            mode={mode}
           />
           <Monitor />
           {!sockReady && <p>Initializing socket...</p>}

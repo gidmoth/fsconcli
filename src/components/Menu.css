@@ -2,12 +2,34 @@
   display: flex;
   position: absolute;
   width: 100%;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   background-color: #282c34;
   color: white;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .MenuHidden {
   display: none;
 }
+
+.menuItem {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+.menuItemNa {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+}
+
