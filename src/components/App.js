@@ -29,7 +29,7 @@ function App(props) {
                 setAccess(data.context)
                 setUser(data)
             })
-    }, [])
+    }, [props.apiorigin])
 
     // render according to usercontext
     switch (access) {

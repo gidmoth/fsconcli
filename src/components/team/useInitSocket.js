@@ -18,7 +18,7 @@ function useInitSocket(user, apiorigin, initsocket, socket, dispatcher) {
             console.log('socket initialized')
             setSockReady(true)
         }
-    }, [])
+    }, [apiorigin, initsocket, user, sockReady])
 
     useEffect(() => {
         if (sockReady) {
@@ -31,7 +31,7 @@ function useInitSocket(user, apiorigin, initsocket, socket, dispatcher) {
                 console.log('socket closed')
             }
         }
-    }, [sockReady])
+    }, [sockReady, dispatcher, socket])
 
     // return for calling component
     return {sockReady}
