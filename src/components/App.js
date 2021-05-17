@@ -8,6 +8,7 @@ import { XmlProvider } from './XmlContext'
 import { LiveProvider } from './LiveContext'
 import { SocketProvider } from './SocketContext'
 import { HeadProvider } from './HeadContext'
+import { PhoneProvider } from './PhoneContext'
 
 const TeamApp = React.lazy(() => import('./TeamApp'))
 
@@ -36,17 +37,19 @@ function App(props) {
         case 'team': {
             return (
                 <div className="App">
-                    <SocketProvider>
-                        <LiveProvider>
-                            <XmlProvider>
-                                <HeadProvider>
-                                    <Suspense fallback={<p>Loading...</p>}>
-                                        <TeamApp user={user} apiorigin={props.apiorigin} />
-                                    </Suspense>
-                                </HeadProvider>
-                            </XmlProvider>
-                        </LiveProvider>
-                    </SocketProvider>
+                    <PhoneProvider user={user} apiorigin={props.apiorigin}>
+                        <SocketProvider>
+                            <LiveProvider>
+                                <XmlProvider>
+                                    <HeadProvider>
+                                        <Suspense fallback={<p>Loading...</p>}>
+                                            <TeamApp user={user} apiorigin={props.apiorigin} />
+                                        </Suspense>
+                                    </HeadProvider>
+                                </XmlProvider>
+                            </LiveProvider>
+                        </SocketProvider>
+                    </PhoneProvider>
                 </div>
             );
         }

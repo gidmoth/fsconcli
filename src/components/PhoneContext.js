@@ -3,7 +3,8 @@
  */
 
 import { Web as Phone } from 'sip.js'
-import { createContext, useState } from 'react'
+import { createContext, useState, useRef } from 'react'
+import  PhoneAudio from './PhoneAudio'
 
 // get context  object
 const PhoneContext = createContext()
@@ -11,13 +12,19 @@ const PhoneContext = createContext()
 // construct provider
 function PhoneProvider(props) {
 
-    // destruct props
-    const { user } = props
+    // ref for audio element
+    const audioRef = useRef()
 
-    
+    // destruct props
+    const { user, apiorigin } = props
+
+    // create phoneelement
+    const phoneelement = <PhoneAudio ref={audioRef} />
 
     // things to get used by components
-    const value = {}
+    const value = {
+        audioelem: phoneelement
+    }
 
     return (
         <PhoneContext.Provider value={value}>

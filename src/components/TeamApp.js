@@ -39,38 +39,18 @@ function TeamApp(props) {
   }
 
   // render according to mode
-  switch (mode) {
-    case 'info': {
-      return (
-        <>
-          <AppHeader
-            switchMode={switchMode}
-            apiorigin={props.apiorigin}
-            mode={mode}
-          />
-          <Info />
-          {loading && <p>Loading...</p>}
-          <button onClick={handleXmlChange} disabled={loading}>reset initXml</button>
-        </>
-      );
-    }
-    case 'monitor': {
-      return (
-        <>
-          <AppHeader
-            switchMode={switchMode}
-            apiorigin={props.apiorigin}
-            mode={mode}
-          />
-          <Monitor />
-          {!sockReady && <p>Initializing socket...</p>}
-        </>
-      )
-    }
-    default: {
-      return null
-    }
-  }
+  return (
+    <>
+      <AppHeader
+        switchMode={switchMode}
+        apiorigin={props.apiorigin}
+        mode={mode}
+      />
+      { mode === 'info' ? <Info /> : <Monitor />}
+      {loading && <p>Loading...</p>}
+      {!sockReady && <p>Initializing socket...</p>}
+    </>
+  );
 }
 
 export default TeamApp;
