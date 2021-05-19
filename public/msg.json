@@ -1,34 +1,41 @@
 {
-    "reply": "init",
-    "data": [
+    "row_count": 3,
+    "rows": [
         {
-            "name": "Verlag_1",
-            "recording": {
-                "status": "norec"
-            },
-            "locked": false,
-            "floor": {
-                "name": "teststefan2",
-                "id": "21000",
-                "confid": "40",
-                "mute": true
-            },
-            "lastjoin": {
-                "name": "teststefan2",
-                "id": "21000",
-                "confid": "40",
-                "mute": true
-            },
-            "lastleave": {},
-            "memcount": 1,
-            "members": [
-                {
-                    "name": "teststefan2",
-                    "id": "21000",
-                    "confid": "40",
-                    "mute": true
-                }
-            ]
+            "reg_user": "21000",
+            "realm": "gsphone.c8h10n4o2.gs",
+            "token": "290bedd7-328e270a-b8676b61@192.168.178.10",
+            "url": "sofia/internal/sip:21000@192.168.178.10:44157;transport=tls;fs_nat=yes;fs_path=sip%3A21000%4077.9.120.243%3A44157%3Btransport%3Dtls",
+            "expires": "1621421520",
+            "network_ip": "77.9.120.243",
+            "network_port": "44157",
+            "network_proto": "tls",
+            "hostname": "gsphone.c8h10n4o2.gs",
+            "metadata": ""
+        },
+        {
+            "reg_user": "22000",
+            "realm": "gsphone.c8h10n4o2.gs",
+            "token": "809506ac-95b5dcef-50f800a6@192.168.182.45",
+            "url": "sofia/internal/sip:22000@192.168.182.45:42698;transport=tls;fs_nat=yes;fs_path=sip%3A22000%4079.241.50.173%3A42698%3Btransport%3Dtls",
+            "expires": "1621421562",
+            "network_ip": "79.241.50.173",
+            "network_port": "42698",
+            "network_proto": "tls",
+            "hostname": "gsphone.c8h10n4o2.gs",
+            "metadata": ""
+        },
+        {
+            "reg_user": "20002",
+            "realm": "gsphone.c8h10n4o2.gs",
+            "token": "qv4ikf60f7ios616th0r",
+            "url": "sofia/internal/sip:3ijdss09@eaqqnjd4ride.invalid;transport=ws;fs_nat=yes;fs_path=sip%3A3ijdss09%4077.9.120.243%3A51834%3Btransport%3Dwss",
+            "expires": "1621421682",
+            "network_ip": "77.9.120.243",
+            "network_port": "51834",
+            "network_proto": "udp",
+            "hostname": "gsphone.c8h10n4o2.gs",
+            "metadata": ""
         }
     ]
 }
