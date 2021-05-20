@@ -15,6 +15,7 @@ function PhoneProvider(props) {
     const phoneRef = useRef()
 
     // states
+    const [registered, setRegistered] = useState(false)
 
     //  function to register Phone
     async function initPhone(user, apiorigin, element) {
@@ -28,7 +29,8 @@ function PhoneProvider(props) {
             aor,
             media: {
                 remote: {
-                    audio: element
+                    audio: element,
+                    video: element
                 }
             },
             userAgentOptions: {
@@ -55,13 +57,16 @@ function PhoneProvider(props) {
         // register
         await phoneRef.current.register()
 
+        setRegistered(true)
+
         console.log(`PHONE REGISTEED: ${phoneRef.current}`)
     }
 
     // things to get used by components
     const value = {
         phone: phoneRef.current,
-        initPhone: initPhone
+        initPhone: initPhone,
+        registered:  registered
     }
 
     return (

@@ -6,11 +6,11 @@ import { PhoneContext } from './PhoneContext'
 function Phone(props) {
 
     const { headstate } = useContext(HeadContext)
-    const { phone, initPhone } = useContext(PhoneContext)
-    const { user, apiorigin } =  props
+    const { phone, initPhone, registered } = useContext(PhoneContext)
+    const { user, apiorigin } = props
     const mediaEl = useRef(null)
 
-    useEffect(()  => {
+    useEffect(() => {
         initPhone(user, apiorigin, mediaEl.current)
     }, [])
 
@@ -20,7 +20,15 @@ function Phone(props) {
 
     return (
         <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
-            <audio controls ref={mediaEl}></audio>
+            <div className={'PhoneInner'}>
+                <video
+                    controls
+                    ref={mediaEl}
+                    poster={`${apiorigin}/poster.png`}
+                    className={'PhoneMedia'}
+                ></video>
+                {registered ? <span>foo</span> : <span>Registering...</span>}
+            </div>
         </div>
     );
 }
