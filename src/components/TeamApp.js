@@ -45,6 +45,7 @@ function TeamApp(props) {
         switchMode={switchMode}
         apiorigin={props.apiorigin}
         mode={mode}
+        user={props.user}
       />
       { mode === 'info' ? <Info /> : <Monitor />}
       {loading && <p>Loading...</p>}

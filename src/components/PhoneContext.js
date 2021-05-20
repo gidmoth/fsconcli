@@ -3,8 +3,7 @@
  */
 
 import { Web as Phone } from 'sip.js'
-import { createContext, useState, useRef, useEffect } from 'react'
-import PhoneAudio from './PhoneAudio'
+import { createContext, useState, useRef } from 'react'
 
 // get context  object
 const PhoneContext = createContext()
@@ -12,65 +11,57 @@ const PhoneContext = createContext()
 // construct provider
 function PhoneProvider(props) {
 
-    // ref for audio element and Phone
-    const audioRef = useRef()
+    // ref for Phone
     const phoneRef = useRef()
 
     // states
 
-    // destruct props
-    const { user, apiorigin } = props
+    //  function to register Phone
+    async function initPhone(user, apiorigin, element) {
+        const server = `wss://${apiorigin.split('//')[1]}${user.wss_binding}`
+        const aor = `sip:${user.id}@${apiorigin.split('//')[1]}:${user.internal_tls_port}`
+        const authorizationUsername = `${user.id}`
+        const authorizationPassword = `${user.password}`
 
-    const  phoneelem = <PhoneAudio ref={audioRef} />
-
-    //  Effect to register Phone
-    useEffect(() => {
-            (async () => {
-                const server = `wss://${apiorigin.split('//')[1]}${user.wss_binding}`
-                const aor = `sip:${user.id}@${apiorigin.split('//')[1]}:${user.internal_tls_port}`
-                const authorizationUsername = `${user.id}`
-                const authorizationPassword = `${user.password}`
-
-                //  Phone options
-                const options = {
-                    aor,
-                    media: {
-                        remote: {
-                            audio: audioRef.current
-                        }
-                    },
-                    userAgentOptions: {
-                        authorizationPassword,
-                        authorizationUsername,
-                    }
+        //  Phone options
+        const options = {
+            aor,
+            media: {
+                remote: {
+                    audio: element
                 }
+            },
+            userAgentOptions: {
+                authorizationPassword,
+                authorizationUsername,
+            }
+        }
 
-                console.log(`MY AUDIOELEMENT: ${audioRef.current}`)
+        console.log(`MY AUDIOELEMENT: ${element}`)
 
-                // sip.js simpleuser
-                phoneRef.current = new Phone.SimpleUser(server, options)
+        // sip.js simpleuser
+        phoneRef.current = new Phone.SimpleUser(server, options)
 
-                // delegate for inbound calls
-                phoneRef.current.delegate = {
-                    onCallReceived: async () => {
-                        await phoneRef.current.answer()
-                    }
-                }
+        // delegate for inbound calls
+        phoneRef.current.delegate = {
+            onCallReceived: async () => {
+                await phoneRef.current.answer()
+            }
+        }
 
-                // connect
-                await phoneRef.current.connect()
+        // connect
+        await phoneRef.current.connect()
 
-                // register
-                await phoneRef.current.register()
+        // register
+        await phoneRef.current.register()
 
-                console.log(`PHONEi REGISTEED: ${phoneRef.current}`)
-            })()
-    }, [])
+        console.log(`PHONE REGISTEED: ${phoneRef.current}`)
+    }
 
     // things to get used by components
     const value = {
-        audioelem: phoneelem,
-        phone: phoneRef.current
+        phone: phoneRef.current,
+        initPhone: initPhone
     }
 
     return (

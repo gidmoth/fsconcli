@@ -1,14 +1,18 @@
 import './Phone.css';
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { HeadContext } from './HeadContext'
 import { PhoneContext } from './PhoneContext'
 
 function Phone(props) {
 
     const { headstate } = useContext(HeadContext)
-    const { audioelem } = useContext(PhoneContext)
+    const { phone, initPhone } = useContext(PhoneContext)
+    const { user, apiorigin } =  props
+    const mediaEl = useRef(null)
 
-    // get control states and setters
+    useEffect(()  => {
+        initPhone(user, apiorigin, mediaEl.current)
+    }, [])
 
 
     // effects on states
@@ -16,7 +20,7 @@ function Phone(props) {
 
     return (
         <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
-            {audioelem}
+            <audio controls ref={mediaEl}></audio>
         </div>
     );
 }

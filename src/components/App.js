@@ -37,7 +37,7 @@ function App(props) {
         case 'team': {
             return (
                 <div className="App">
-                    <PhoneProvider user={user} apiorigin={props.apiorigin}>
+                    <PhoneProvider >
                         <SocketProvider>
                             <LiveProvider>
                                 <XmlProvider>
