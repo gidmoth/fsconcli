@@ -18,7 +18,7 @@ function PhoneProvider(props) {
     const [registered, setRegistered] = useState(false)
 
     //  function to register Phone
-    async function initPhone(user, apiorigin, element) {
+    async function initPhone(user, apiorigin, element, selfelem) {
         const server = `wss://${apiorigin.split('//')[1]}${user.wss_binding}`
         const aor = `sip:${user.id}@${apiorigin.split('//')[1]}:${user.internal_tls_port}`
         const authorizationUsername = `${user.id}`
@@ -28,9 +28,16 @@ function PhoneProvider(props) {
         const options = {
             aor,
             media: {
+                constraints:  {
+                    audio: true,
+                    video: true
+                },
                 remote: {
                     audio: element,
                     video: element
+                },
+                local: {
+                    video: selfelem
                 }
             },
             userAgentOptions: {
@@ -59,7 +66,7 @@ function PhoneProvider(props) {
 
         setRegistered(true)
 
-        console.log(`PHONE REGISTEED: ${phoneRef.current}`)
+        console.log(`PHONE REGISTED`)
     }
 
     // things to get used by components

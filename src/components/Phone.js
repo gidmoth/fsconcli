@@ -9,9 +9,10 @@ function Phone(props) {
     const { phone, initPhone, registered } = useContext(PhoneContext)
     const { user, apiorigin } = props
     const mediaEl = useRef(null)
+    const selfEl = useRef(null)
 
     useEffect(() => {
-        initPhone(user, apiorigin, mediaEl.current)
+        initPhone(user, apiorigin, mediaEl.current, selfEl.current)
     }, [])
 
 
@@ -26,6 +27,10 @@ function Phone(props) {
                     ref={mediaEl}
                     poster={`${apiorigin}/poster.png`}
                     className={'PhoneMedia'}
+                ></video>
+                <video
+                controls
+                ref={selfEl}
                 ></video>
                 {registered ? <span>foo</span> : <span>Registering...</span>}
             </div>
