@@ -14,11 +14,11 @@ function Menu(props) {
 
     return (
         <div className={headstate.showmenu ? 'Menu' : 'MenuHidden'}>
-            <div className={mode === 'info' ? 'menuItemNa' : 'menuItem'} onClick={() => handleChoice('info')}>
-                <p><span className='symb'>info</span><br />info</p>
+            <div className={mode === 'info' ? 'menuItemNa' : 'menuItem'}>
+                <p><span className='symb' onClick={() => handleChoice('info')}>info</span><br />info</p>
             </div>
-            <div className={mode === 'monitor' ? 'menuItemNa' : 'menuItem'} onClick={() => handleChoice('monitor')}>
-                <p><span className='symb'>live_tv</span><br />monitor</p>
+            <div className={mode === 'monitor' ? 'menuItemNa' : 'menuItem'} >
+                <p><span className='symb' onClick={() => handleChoice('monitor')}>live_tv</span><br />monitor</p>
             </div>
         </div>
     );

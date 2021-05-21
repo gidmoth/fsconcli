@@ -99,3 +99,19 @@ strong em {
   font-size: calc(1.5rem + 2vmin);
 }
 
+.symb:hover {
+  cursor: pointer;
+  /* color:  #ffefd5; */
+  color: #db7093;
+}
+
+.phonesymb {
+  font-family: 'MaterialIcons', fantasy;
+  font-size: calc(1.5rem + 2vmin);
+}
+
+.phonesymb:hover {
+  cursor: pointer;
+  color: #db7093;
+}
+

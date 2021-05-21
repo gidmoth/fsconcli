@@ -22,16 +22,12 @@ function Phone(props) {
     return (
         <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
             <div className={'PhoneInner'}>
-                <video
+                <audio
                     controls
                     ref={mediaEl}
-                    poster={`${apiorigin}/poster.png`}
+                    // poster={`${apiorigin}/poster.png`}
                     className={'PhoneMedia'}
-                ></video>
-                <video
-                controls
-                ref={selfEl}
-                ></video>
+                ></audio>
                 {registered ? <span>foo</span> : <span>Registering...</span>}
             </div>
         </div>

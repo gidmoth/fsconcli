@@ -16,7 +16,7 @@
   }
 
 .meuBtn {
-  flex: 1;
+  /* flex: 1; */
   display: flex;
   justify-content: flex-start;
   padding: 0 1%;
@@ -29,7 +29,7 @@
 }
 
 .phoneBtn{
-  flex: 1;
+  /* flex: 1; */
   display: flex;
   justify-content: flex-end;
   padding: 0 1%;
