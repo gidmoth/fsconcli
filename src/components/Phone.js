@@ -5,16 +5,28 @@ import { PhoneContext } from './PhoneContext'
 
 function Phone(props) {
 
-    const { headstate } = useContext(HeadContext)
-    const { phone, initPhone, registered } = useContext(PhoneContext)
+    const { headdispatcher, headstate } = useContext(HeadContext)
+    const {
+        initPhone,
+        registered,
+        ringing,
+        answerCall
+    } = useContext(PhoneContext)
     const { user, apiorigin } = props
     const mediaEl = useRef(null)
-    const selfEl = useRef(null)
+    //const selfEl = useRef(null)
 
+    // initialize audiophone by default
     useEffect(() => {
-        initPhone(user, apiorigin, mediaEl.current, selfEl.current)
+        initPhone(user, apiorigin, mediaEl.current)
     }, [])
 
+    // react to ringstate (from Phonecontext)
+    useEffect(() => {
+        if (ringing) {
+            headdispatcher({ type: 'phonering' })
+        }
+    },  [ringing])
 
     // effects on states
 
@@ -28,7 +40,11 @@ function Phone(props) {
                     // poster={`${apiorigin}/poster.png`}
                     className={'PhoneMedia'}
                 ></audio>
-                {registered ? <span>foo</span> : <span>Registering...</span>}
+                {registered ? <span>Registered</span> : <span>Registering...</span>}
+                {ringing  ? <span
+                className={'symb'}
+                onClick={() => answerCall()}
+                >call</span> : <span>nocall!</span>}
             </div>
         </div>
     );

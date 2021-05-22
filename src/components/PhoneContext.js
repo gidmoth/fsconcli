@@ -16,6 +16,12 @@ function PhoneProvider(props) {
 
     // states
     const [registered, setRegistered] = useState(false)
+    const [ringing,  setRinging]  = useState(false)
+
+    // function to accept call
+    async function answerCall() {
+        await phoneRef.current.answer()
+    }
 
     //  function to register Phone
     async function initPhone(user, apiorigin, element) {
@@ -49,8 +55,8 @@ function PhoneProvider(props) {
 
         // delegate for inbound calls
         phoneRef.current.delegate = {
-            onCallReceived: async () => {
-                await phoneRef.current.answer()
+            onCallReceived: () => {
+                setRinging(true)
             }
         }
 
@@ -67,9 +73,10 @@ function PhoneProvider(props) {
 
     // things to get used by components
     const value = {
-        phone: phoneRef.current,
         initPhone: initPhone,
-        registered:  registered
+        registered:  registered,
+        ringing: ringing,
+        answerCall: answerCall
     }
 
     return (

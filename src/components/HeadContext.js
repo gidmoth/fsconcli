@@ -69,6 +69,16 @@ function reducer(currstate, event) {
                     }
                 }
             }
+            break
+        }
+        case 'phonering': {
+            return {
+                showphone: true,
+                showmenu: false,
+                phoneicn: 'expand_less',
+                menuicn: 'menu'
+            }
+            break
         }
     }
 }
