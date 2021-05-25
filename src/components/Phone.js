@@ -11,7 +11,9 @@ function Phone(props) {
         initPhone,
         phonedispatch,
         phonestate,
-        answerCall
+        answerCall,
+        makeCall,
+        endCall
     } = useContext(PhoneContext)
 
     const { user, apiorigin } = props
@@ -46,6 +48,8 @@ function Phone(props) {
                 ></audio>
                 {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
                 <button onClick={answerCall}>answer</button>
+                <button onClick={() => makeCall(mediaEl.current)}>make call</button>
+                <button onClick={endCall}>end call</button>
             </div>
         </div>
     );
