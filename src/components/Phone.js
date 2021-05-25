@@ -6,13 +6,16 @@ import { PhoneContext } from './PhoneContext'
 function Phone(props) {
 
     const { headdispatcher, headstate } = useContext(HeadContext)
+    
     const {
         initPhone,
-        registered,
-        ringing,
+        phonedispatch,
+        phonestate,
         answerCall
     } = useContext(PhoneContext)
+
     const { user, apiorigin } = props
+    
     const mediaEl = useRef(null)
     //const selfEl = useRef(null)
 
@@ -23,10 +26,11 @@ function Phone(props) {
 
     // react to ringstate (from Phonecontext)
     useEffect(() => {
-        if (ringing) {
+        if (phonestate.pop) {
             headdispatcher({ type: 'phonering' })
+            phonedispatch({type: 'popped'})
         }
-    },  [ringing])
+    },  [phonestate.pop])
 
     // effects on states
 
@@ -40,11 +44,8 @@ function Phone(props) {
                     // poster={`${apiorigin}/poster.png`}
                     className={'PhoneMedia'}
                 ></audio>
-                {registered ? <span>Registered</span> : <span>Registering...</span>}
-                {ringing  ? <span
-                className={'symb'}
-                onClick={() => answerCall()}
-                >call</span> : <span>nocall!</span>}
+                {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
+                <button onClick={answerCall}>answer</button>
             </div>
         </div>
     );

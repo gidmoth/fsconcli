@@ -3,7 +3,21 @@
  */
 
 import { Web as Phone } from 'sip.js'
-import { createContext, useState, useRef } from 'react'
+import { createContext, useState, useRef, useReducer } from 'react'
+
+function reducer(currstate, event) {
+    switch (event.type) {
+        case 'register': {
+            return { ...currstate, registered: true }
+        }
+        case  'ring': {
+            return {...currstate, ringing: true, pop: true}
+        }
+        case 'popped': {
+            return {...currstate, pop: false}
+        }
+    }
+}
 
 // get context  object
 const PhoneContext = createContext()
@@ -15,8 +29,14 @@ function PhoneProvider(props) {
     const phoneRef = useRef()
 
     // states
-    const [registered, setRegistered] = useState(false)
-    const [ringing,  setRinging]  = useState(false)
+    /* const [registered, setRegistered] = useState(false)
+    const [ringing,  setRinging]  = useState(false) */
+
+    const [phonestate, dispatch] = useReducer(reducer, {
+        registered: false,
+        ringing: false,
+        pop: false
+    })
 
     // function to accept call
     async function answerCall() {
@@ -29,12 +49,13 @@ function PhoneProvider(props) {
         const aor = `sip:${user.id}@${apiorigin.split('//')[1]}:${user.internal_tls_port}`
         const authorizationUsername = `${user.id}`
         const authorizationPassword = `${user.password}`
+        const displayName = `${user.name}`
 
         //  Phone options
         const options = {
             aor,
             media: {
-                constraints:  {
+                constraints: {
                     audio: true,
                     video: false
                 },
@@ -45,6 +66,7 @@ function PhoneProvider(props) {
             userAgentOptions: {
                 authorizationPassword,
                 authorizationUsername,
+                displayName
             }
         }
 
@@ -56,7 +78,7 @@ function PhoneProvider(props) {
         // delegate for inbound calls
         phoneRef.current.delegate = {
             onCallReceived: () => {
-                setRinging(true)
+                dispatch({ type: 'ring' })
             }
         }
 
@@ -66,7 +88,7 @@ function PhoneProvider(props) {
         // register
         await phoneRef.current.register()
 
-        setRegistered(true)
+        dispatch({ type: 'register' })
 
         console.log(`PHONE REGISTED`)
     }
@@ -74,8 +96,8 @@ function PhoneProvider(props) {
     // things to get used by components
     const value = {
         initPhone: initPhone,
-        registered:  registered,
-        ringing: ringing,
+        phonestate: phonestate,
+        phonedispatch: dispatch,
         answerCall: answerCall
     }
 
