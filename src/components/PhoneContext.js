@@ -85,7 +85,17 @@ function PhoneProvider(props) {
                     throw new Error("Unknown session state.");
             }
         })
-        sessionRef.current.invite()
+
+        const inviteOptions = {
+            sessionDescriptionHandlerOptions: {
+                constraints: {
+                    audio: true,
+                    video: false,
+                },
+            }
+        }
+
+        sessionRef.current.invite(inviteOptions)
             .then(() => {
                 dispatch({ type: 'call' })
             })
@@ -140,15 +150,6 @@ function PhoneProvider(props) {
         //  connect media
         streamRef.current = new MediaStream()
 
-        function setupRemoteMed(session, element) {
-            setupRemoteMedia(session, element)
-        }
-
-        // cleanup mediastream
-        function cleanupMed() {
-            cleanupMedia(element)
-        }
-
         // delegate call receiving
         function onInvite(invitation) {
             console.log(invitation.remoteIdentity._displayName)
@@ -162,12 +163,12 @@ function PhoneProvider(props) {
                     case SessionState.Establishing:
                         break;
                     case SessionState.Established:
-                        setupRemoteMed(sessionRef.current, element);
+                        setupRemoteMedia(sessionRef.current, element);
                         break;
                     case SessionState.Terminating:
                     // fall through
                     case SessionState.Terminated:
-                        cleanupMed();
+                        cleanupMedia(element);
                         break;
                     default:
                         throw new Error("Unknown session state.")
