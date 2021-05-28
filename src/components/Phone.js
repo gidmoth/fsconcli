@@ -81,7 +81,7 @@ function Phone(props) {
                     <button onClick={answerCall}>answer</button>
                     <button onClick={() => makeCall(mediaEl.current)}>make call</button>
                     <button onClick={endCall}>end call</button>
-                    <button onClick={() => toggleVid()} >toggle video</button>
+                    <button onClick={() => toggleVid()}>toggle video</button>
                 </div>
             </>);
         }
