@@ -88,6 +88,7 @@ function PhoneProvider(props) {
                 }
             })
             optelement.srcObject = optstreamRef.current
+            optelement.volume = 0
             optelement.play()
         }
     }
