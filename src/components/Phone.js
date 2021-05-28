@@ -36,54 +36,54 @@ function Phone(props) {
 
     // toggle Video
     function toggleVid() {
-        phonedispatch({type: 'togglevid'})
+        phonedispatch({ type: 'togglevid' })
     }
 
     // effects on states
 
     switch (phonestate.video) {
         case false: {
-            return (
+            return (<>
                 <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
-                    <div className={'PhoneInner'}>
-                        <audio
-                            controls
-                            ref={mediaEl}
-                            className={'PhoneMedia'}
-                        ></audio>
-                        {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
-                        <button onClick={answerCall}>answer</button>
-                        <button onClick={() => makeCall(mediaEl.current)}>make call</button>
-                        <button onClick={endCall}>end call</button>
-                        <button onClick={() => toggleVid()}>toggle video</button>
-                    </div>
+                    <audio
+                        controls
+                        ref={mediaEl}
+                        className={'PhoneMediaAud'}
+                    ></audio>
                 </div>
-            );
+                <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
+                    {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
+                    <button onClick={answerCall}>answer</button>
+                    <button onClick={() => makeCall(mediaEl.current)}>make call</button>
+                    <button onClick={endCall}>end call</button>
+                    <button onClick={() => toggleVid()}>toggle video</button>
+                </div>
+            </>);
         }
         case true: {
-            return (
+            return (<>
                 <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
-                    <div className={'PhoneInner'}>
-                        <video
-                            controls
-                            ref={mediaEl}
-                            poster={`${apiorigin}/poster.png`}
-                            className={'PhoneMedia'}
-                        ></video>
-                        <video
-                            controls
-                            ref={optmediaEl}
-                            poster={`${apiorigin}/poster.png`}
-                            className={'PhoneMedia'}
-                        ></video>
-                        {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
-                        <button onClick={answerCall}>answer</button>
-                        <button onClick={() => makeCall(mediaEl.current)}>make call</button>
-                        <button onClick={endCall}>end call</button>
-                        <button onClick={() => toggleVid()}>toggle video</button>
-                    </div>
+                    <video
+                        controls
+                        ref={mediaEl}
+                        poster={`${apiorigin}/poster.png`}
+                        className={'PhoneMediaVid'}
+                    ></video>
+                    <video
+                        controls
+                        ref={optmediaEl}
+                        poster={`${apiorigin}/poster.png`}
+                        className={'PhoneMediaVid'}
+                    ></video>
                 </div>
-            );
+                <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
+                    {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
+                    <button onClick={answerCall}>answer</button>
+                    <button onClick={() => makeCall(mediaEl.current)}>make call</button>
+                    <button onClick={endCall}>end call</button>
+                    <button onClick={() => toggleVid()} >toggle video</button>
+                </div>
+            </>);
         }
     }
 
