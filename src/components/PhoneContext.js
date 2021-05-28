@@ -10,14 +10,38 @@ function reducer(currstate, event) {
         case 'register': {
             return { ...currstate, registered: true }
         }
+        case 'unregister': {
+            return { ...currstate, registered: false }
+        }
         case 'ring': {
             return { ...currstate, ringing: true, pop: true }
         }
         case 'popped': {
             return { ...currstate, pop: false }
         }
+        case 'talk': {
+            return { ...currstate, talking: true }
+        }
+        case 'unring': {
+            return { ...currstate, ringing: false }
+        }
+        case 'endtalk': {
+            return { ...currstate, talking: false }
+        }
+        case 'callanswered': {
+            return { ...currstate, talking: true, calling: false }
+        }
         case 'call': {
             return { ...currstate, calling: true }
+        }
+        case 'uncall': {
+            return { ...currstate, calling: false }
+        }
+        case 'callaccept': {
+            return { ...currstate, ringing: false, talking: true }
+        }
+        case 'togglevid': {
+            return { ...currstate, video: !currstate.video }
         }
     }
 }
@@ -29,9 +53,11 @@ const PhoneContext = createContext()
 function PhoneProvider(props) {
 
     // ref for Phone
-    const phoneRef = useRef()
-    const sessionRef = useRef()
-    const streamRef = useRef()
+    const phoneRef = useRef(null)
+    const sessionRef = useRef(null)
+    const streamRef = useRef(null)
+    const optstreamRef = useRef(null)
+    const regRef = useRef(null)
 
     // states
     /* const [registered, setRegistered] = useState(false)
@@ -41,28 +67,69 @@ function PhoneProvider(props) {
         registered: false,
         ringing: false,
         pop: false,
-        calling: false
+        calling: false,
+        video: false,
+        talking: false
     })
 
     //  connect media
-    function setupRemoteMedia(session, element) {
+    function setupRemoteMedia(session, element, optelement) {
         session.sessionDescriptionHandler.peerConnection.getReceivers().forEach((receiver) => {
             if (receiver.track) {
                 streamRef.current.addTrack(receiver.track);
             }
         });
         element.srcObject = streamRef.current;
-        element.play();
+        element.play()
+        if (optelement) {
+            session.sessionDescriptionHandler.peerConnection.getSenders().forEach((sender) => {
+                if (sender.track) {
+                    optstreamRef.current.addTrack(sender.track)
+                }
+            })
+            optelement.srcObject = optstreamRef.current
+            optelement.play()
+        }
     }
 
     // cleanup mediastream
-    function cleanupMedia(element) {
+    function cleanupMedia(element, optelement) {
         element.srcObject = null;
         element.pause();
+        if (optelement) {
+            optelement.srcObject = null
+            optelement.pause()
+        }
+    }
+
+    // helper for videostate
+    function getInviterOptions() {
+        if (phonestate.video) {
+            return {
+                sessionDescriptionHandlerOptions: {
+                    constraints: {
+                        audio: true,
+                        video: true,
+                    },
+                }
+            }
+        }
+        return {
+            sessionDescriptionHandlerOptions: {
+                constraints: {
+                    audio: true,
+                    video: false,
+                },
+            }
+        }
     }
 
     // function to make call
-    function makeCall(element) {
+    function makeCall(element, optelement) {
+        if (sessionRef.current) {
+            console.log('CANT MAKE TWO CALLS!')
+            return
+        }
         const target = UserAgent.makeURI('sip:32000@gsphone.c8h10n4o2.gs:3361')
         const inviter = new Inviter(phoneRef.current, target)
         sessionRef.current = inviter
@@ -74,26 +141,22 @@ function PhoneProvider(props) {
                 case SessionState.Establishing:
                     break;
                 case SessionState.Established:
-                    setupRemoteMedia(inviter, element);
+                    setupRemoteMedia(inviter, element, optelement);
+                    dispatch({ type: 'callanswered' })
                     break;
                 case SessionState.Terminating:
                 // fall through
                 case SessionState.Terminated:
-                    cleanupMedia(element);
+                    sessionRef.current = null
+                    cleanupMedia(element, optelement);
+                    dispatch({ type: 'endtalk' })
                     break;
                 default:
                     throw new Error("Unknown session state.");
             }
         })
 
-        const inviteOptions = {
-            sessionDescriptionHandlerOptions: {
-                constraints: {
-                    audio: true,
-                    video: false,
-                },
-            }
-        }
+        const inviteOptions = getInviterOptions()
 
         sessionRef.current.invite(inviteOptions)
             .then(() => {
@@ -106,7 +169,8 @@ function PhoneProvider(props) {
 
     // function to accept call
     function answerCall() {
-        sessionRef.current.accept()
+        const acceptOptions = getInviterOptions()
+        sessionRef.current.accept(acceptOptions)
             .then(() => {
                 console.log('ACCEPTED INVITE')
             })
@@ -122,15 +186,17 @@ function PhoneProvider(props) {
             case SessionState.Establishing:
                 if (sessionRef.current instanceof Inviter) {
                     // An unestablished outgoing session
-                    sessionRef.current.cancel();
+                    sessionRef.current.cancel()
+                    dispatch({ type: 'uncall' })
                 } else {
                     // An unestablished incoming session
-                    sessionRef.current.reject();
+                    sessionRef.current.reject()
+                    dispatch({ type: 'unring' })
                 }
                 break;
             case SessionState.Established:
                 // An established session
-                sessionRef.current.bye();
+                sessionRef.current.bye()
                 break;
             case SessionState.Terminating:
             case SessionState.Terminated:
@@ -140,7 +206,22 @@ function PhoneProvider(props) {
     }
 
     //  function to register Phone
-    function initPhone(user, apiorigin, element) {
+    function initPhone(user, apiorigin, element, optelement) {
+
+        if (sessionRef.current) {
+            endCall()
+        }
+
+        if (phonestate.registered) {
+            regRef.current.unregister()
+                .then(() => {
+                    console.log('UNREGISTERED')
+                    dispatch({ type: 'unregister' })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
 
         // configure useragent
         const transportOptions = {
@@ -150,9 +231,23 @@ function PhoneProvider(props) {
         //  connect media
         streamRef.current = new MediaStream()
 
+        if (optelement) {
+            optstreamRef.current = new MediaStream()
+        }
+
         // delegate call receiving
         function onInvite(invitation) {
             console.log(invitation.remoteIdentity._displayName)
+            if (sessionRef.current) {
+                invitation.reject()
+                    .then(() => {
+                        console.log(`rejected invitation from ${invitation.remoteIdentity._displayName}`)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                return
+            }
             dispatch({ type: 'ring' })
             sessionRef.current = invitation
             sessionRef.current.stateChange.addListener((state) => {
@@ -163,12 +258,15 @@ function PhoneProvider(props) {
                     case SessionState.Establishing:
                         break;
                     case SessionState.Established:
-                        setupRemoteMedia(sessionRef.current, element);
+                        setupRemoteMedia(sessionRef.current, element, optelement);
+                        dispatch({ type: 'callaccept' })
                         break;
                     case SessionState.Terminating:
                     // fall through
                     case SessionState.Terminated:
-                        cleanupMedia(element);
+                        sessionRef.current = null
+                        cleanupMedia(element, optelement);
+                        dispatch({ type: 'endtalk' })
                         break;
                     default:
                         throw new Error("Unknown session state.")
@@ -194,12 +292,12 @@ function PhoneProvider(props) {
         phoneRef.current = new UserAgent(userAgentOptions)
 
         // create registerer
-        const registerer = new Registerer(phoneRef.current)
+        regRef.current = new Registerer(phoneRef.current)
 
         //  start and register
         phoneRef.current.start()
             .then(() => {
-                registerer.register()
+                regRef.current.register()
                     .then(() => {
                         console.log('PHONE REGISTERED')
                         dispatch({ type: 'register' })
