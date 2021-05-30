@@ -24,6 +24,10 @@
   overflow: hidden;
 }
 
+.PhoneMediaVidHidden {
+  display: none;
+}
+
 .PhoneMediaAud {
   max-width: 100%;
   max-height: 100%;

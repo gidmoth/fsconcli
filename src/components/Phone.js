@@ -1,11 +1,13 @@
 import './Phone.css';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { HeadContext } from './HeadContext'
 import { PhoneContext } from './PhoneContext'
 
 function Phone(props) {
 
     const { headdispatcher, headstate } = useContext(HeadContext)
+
+    const [showself, setShowself] = useState(false)
 
     const {
         initPhone,
@@ -39,6 +41,11 @@ function Phone(props) {
         phonedispatch({ type: 'togglevid' })
     }
 
+    // flip cam
+    function flipCam() {
+        setShowself(!showself)
+    }
+
     // effects on states
 
     switch (phonestate.video) {
@@ -64,16 +71,14 @@ function Phone(props) {
             return (<>
                 <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
                     <video
-                        controls
                         ref={mediaEl}
                         poster={`${apiorigin}/poster.png`}
-                        className={'PhoneMediaVid'}
+                        className={showself ? 'PhoneMediaVidHidden' : 'PhoneMediaVid'}
                     ></video>
                     <video
-                        controls
                         ref={optmediaEl}
                         poster={`${apiorigin}/poster.png`}
-                        className={'PhoneMediaVid'}
+                        className={showself ? 'PhoneMediaVid' : 'PhoneMediaVidHidden'}
                     ></video>
                 </div>
                 <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
@@ -82,6 +87,7 @@ function Phone(props) {
                     <button onClick={() => makeCall(mediaEl.current)}>make call</button>
                     <button onClick={endCall}>end call</button>
                     <button onClick={() => toggleVid()}>toggle video</button>
+                    <button onClick={() => flipCam()}>flip  cam</button>
                 </div>
             </>);
         }
