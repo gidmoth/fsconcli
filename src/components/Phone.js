@@ -2,6 +2,7 @@ import './Phone.css';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { HeadContext } from './HeadContext'
 import { PhoneContext } from './PhoneContext'
+import  PhoneButtons  from './PhoneButtons'
 
 function Phone(props) {
 
@@ -53,17 +54,12 @@ function Phone(props) {
             return (<>
                 <div className={headstate.showphone ? 'Phone' : 'PhoneHidden'}>
                     <audio
-                        controls
                         ref={mediaEl}
                         className={'PhoneMediaAud'}
                     ></audio>
                 </div>
                 <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
-                    {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
-                    <button onClick={answerCall}>answer</button>
-                    <button onClick={() => makeCall(mediaEl.current)}>make call</button>
-                    <button onClick={endCall}>end call</button>
-                    <button onClick={() => toggleVid()}>toggle video</button>
+                    <PhoneButtons />
                 </div>
             </>);
         }
@@ -82,12 +78,12 @@ function Phone(props) {
                     ></video>
                 </div>
                 <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
-                    {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
+                    {/* {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
                     <button onClick={answerCall}>answer</button>
                     <button onClick={() => makeCall(mediaEl.current)}>make call</button>
                     <button onClick={endCall}>end call</button>
                     <button onClick={() => toggleVid()}>toggle video</button>
-                    <button onClick={() => flipCam()}>flip  cam</button>
+                    <button onClick={() => flipCam()}>flip  cam</button> */}
                 </div>
             </>);
         }

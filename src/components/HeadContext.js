@@ -78,7 +78,6 @@ function reducer(currstate, event) {
                 phoneicn: 'expand_less',
                 menuicn: 'menu'
             }
-            break
         }
     }
 }

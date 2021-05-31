@@ -20,16 +20,16 @@ function reducer(currstate, event) {
             return { ...currstate, pop: false }
         }
         case 'talk': {
-            return { ...currstate, talking: true }
+            return { ...currstate, talking: true, dtmf: true }
         }
         case 'unring': {
             return { ...currstate, ringing: false }
         }
         case 'endtalk': {
-            return { ...currstate, talking: false }
+            return { ...currstate, talking: false,  dtmf: false }
         }
         case 'callanswered': {
-            return { ...currstate, talking: true, calling: false }
+            return { ...currstate, talking: true, calling: false,  dtmf: true }
         }
         case 'call': {
             return { ...currstate, calling: true }
@@ -38,7 +38,7 @@ function reducer(currstate, event) {
             return { ...currstate, calling: false }
         }
         case 'callaccept': {
-            return { ...currstate, ringing: false, talking: true }
+            return { ...currstate, ringing: false, talking: true,  dtmf:  true }
         }
         case 'togglevid': {
             return { ...currstate, video: !currstate.video }
@@ -69,7 +69,8 @@ function PhoneProvider(props) {
         pop: false,
         calling: false,
         video: false,
-        talking: false
+        talking: false,
+        dtmf: false
     })
 
     //  connect media
