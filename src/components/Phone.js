@@ -2,7 +2,7 @@ import './Phone.css';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { HeadContext } from './HeadContext'
 import { PhoneContext } from './PhoneContext'
-import  PhoneButtons  from './PhoneButtons'
+import PhoneButtons from './PhoneButtons'
 
 function Phone(props) {
 
@@ -59,7 +59,12 @@ function Phone(props) {
                     ></audio>
                 </div>
                 <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
-                    <PhoneButtons />
+                    <PhoneButtons
+                        mediaEl={mediaEl.current}
+                        optmediaEl={optmediaEl.current}
+                        toggleVid={toggleVid}
+                        flipCam={flipCam}
+                    />
                 </div>
             </>);
         }
@@ -78,6 +83,12 @@ function Phone(props) {
                     ></video>
                 </div>
                 <div className={headstate.showphone ? 'PhoneButtons' : 'PhoneButtonsHidden'}>
+                    <PhoneButtons
+                        mediaEl={mediaEl.current}
+                        optmediaEl={optmediaEl.current}
+                        toggleVid={toggleVid}
+                        flipCam={flipCam}
+                    />
                     {/* {phonestate.registered ? <span>Registered</span> : <span>Registering...</span>}
                     <button onClick={answerCall}>answer</button>
                     <button onClick={() => makeCall(mediaEl.current)}>make call</button>

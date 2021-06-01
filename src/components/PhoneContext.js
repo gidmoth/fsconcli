@@ -26,10 +26,10 @@ function reducer(currstate, event) {
             return { ...currstate, ringing: false }
         }
         case 'endtalk': {
-            return { ...currstate, talking: false,  dtmf: false }
+            return { ...currstate, talking: false, dtmf: false }
         }
         case 'callanswered': {
-            return { ...currstate, talking: true, calling: false,  dtmf: true }
+            return { ...currstate, talking: true, calling: false, dtmf: true }
         }
         case 'call': {
             return { ...currstate, calling: true }
@@ -38,10 +38,13 @@ function reducer(currstate, event) {
             return { ...currstate, calling: false }
         }
         case 'callaccept': {
-            return { ...currstate, ringing: false, talking: true,  dtmf:  true }
+            return { ...currstate, ringing: false, talking: true, dtmf: true }
         }
         case 'togglevid': {
             return { ...currstate, video: !currstate.video }
+        }
+        case 'setstring': {
+            return { ...currstate, dialtamplate: event.value }
         }
     }
 }
@@ -70,7 +73,8 @@ function PhoneProvider(props) {
         calling: false,
         video: false,
         talking: false,
-        dtmf: false
+        dtmf: false,
+        dialtamplate: ''
     })
 
     //  connect media
@@ -127,12 +131,12 @@ function PhoneProvider(props) {
     }
 
     // function to make call
-    function makeCall(element, optelement) {
+    function makeCall(number, element, optelement) {
         if (sessionRef.current) {
             console.log('CANT MAKE TWO CALLS!')
             return
         }
-        const target = UserAgent.makeURI('sip:32000@gsphone.c8h10n4o2.gs:3361')
+        const target = UserAgent.makeURI(`sip:${number}@${phonestate.dialtamplate}`)
         const inviter = new Inviter(phoneRef.current, target)
         sessionRef.current = inviter
         sessionRef.current.stateChange.addListener((state) => {
@@ -229,6 +233,10 @@ function PhoneProvider(props) {
         const transportOptions = {
             server: `wss://${apiorigin.split('//')[1]}${user.wss_binding}`
         }
+
+        // set  state to hold sip-dialstring
+        const todial = `${apiorigin.split('//')[1]}:${user.internal_tls_port}`
+        dispatch({ type: 'setstring', value: todial })
 
         //  connect media
         streamRef.current = new MediaStream()

@@ -1,15 +1,19 @@
 import './PhoneButtons.css';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { PhoneContext } from './PhoneContext'
-import { CollectionsBookmarkOutlined } from '@material-ui/icons';
 
+
+// the  call  button
 function GreenBtn(props) {
 
     const {
         phonestate,
-        answerCall,
-        makeCall
+        answerCall
     } = useContext(PhoneContext)
+
+    const {
+        dial
+    } = props
 
     function getClass() {
         return (
@@ -29,6 +33,9 @@ function GreenBtn(props) {
                 answerCall()
                 break
             }
+            default:
+                dial()
+                break
         }
     }
 
@@ -39,6 +46,8 @@ function GreenBtn(props) {
     </span>
 }
 
+
+// the hangup button
 function RedBtn(props) {
 
     const {
@@ -96,6 +105,7 @@ function RedBtn(props) {
 }
 
 
+// buttons  for numpad
 function PadBtn(props) {
 
     const { sign, clickNum } = props
@@ -123,7 +133,7 @@ function PadBtn(props) {
     </span>
 }
 
-
+// the numpad
 function Pad(props) {
 
     const { clickNum } = props
@@ -153,6 +163,8 @@ function Pad(props) {
     </div>
 }
 
+
+// massages and  numbers
 function InfoBox(props) {
 
     const { infoNum, clickClear } = props
@@ -178,7 +190,29 @@ function InfoBox(props) {
     )
 }
 
+// toggle video button
+function VidToggle(props) {
 
+    const {
+        phonestate
+    } = useContext(PhoneContext)
+
+    const {
+        toggleVid
+    } = props
+
+    return (
+        <span
+            className={'subbtn'}
+            onClick={() => toggleVid()}
+        >
+            {phonestate.video ? 'videocam_off' : 'videocam'}
+        </span>
+    )
+}
+
+
+// render all buttons
 function PhoneButtons(props) {
 
     const [infoNum, setInfoNum] = useState('')
@@ -188,8 +222,32 @@ function PhoneButtons(props) {
         phonestate,
         answerCall,
         makeCall,
-        endCall
+        endCall,
     } = useContext(PhoneContext)
+
+    const {
+        mediaEl,
+        optmediaEl,
+        toggleVid,
+        flipCam
+    } = props
+
+    function dial() {
+        switch (phonestate.video) {
+            case false: {
+                makeCall(infoNum, mediaEl)
+                setInfoNum('')
+                break
+            }
+            case true: {
+                makeCall(infoNum, mediaEl, optmediaEl)
+                setInfoNum('')
+                break
+            }
+        }
+        makeCall(infoNum, mediaEl)
+        setInfoNum('')
+    }
 
     function clickNum(num) {
         setInfoNum(prev => `${prev}` + `${num}`)
@@ -210,10 +268,18 @@ function PhoneButtons(props) {
         />
         <Pad clickNum={clickNum} />
         <div className={'greenredline'}>
-            <GreenBtn />
+            <GreenBtn
+                dial={dial}
+                infoNum={infoNum}
+            />
             <RedBtn
                 clearAll={clearAll}
                 infoNum={infoNum}
+            />
+        </div>
+        <div className={'subline'}>
+            <VidToggle
+                toggleVid={toggleVid}
             />
         </div>
     </>)
