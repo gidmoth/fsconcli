@@ -86,7 +86,7 @@ function PhoneProvider(props) {
         });
         element.srcObject = streamRef.current;
         element.play()
-        if (optelement) {
+        if (phonestate.video) {
             session.sessionDescriptionHandler.peerConnection.getSenders().forEach((sender) => {
                 if (sender.track) {
                     optstreamRef.current.addTrack(sender.track)
@@ -102,7 +102,7 @@ function PhoneProvider(props) {
     function cleanupMedia(element, optelement) {
         element.srcObject = null;
         element.pause();
-        if (optelement) {
+        if (phonestate.video) {
             optelement.srcObject = null
             optelement.pause()
         }
@@ -133,7 +133,7 @@ function PhoneProvider(props) {
     // function to make call
     function makeCall(number, element, optelement) {
         if (sessionRef.current) {
-            console.log('CANT MAKE TWO CALLS!')
+            console.log('\n\n\n\nCANT MAKE TWO CALLS!\n\n\n\n')
             return
         }
         const target = UserAgent.makeURI(`sip:${number}@${phonestate.dialtamplate}`)
@@ -145,6 +145,7 @@ function PhoneProvider(props) {
                 case SessionState.Initial:
                     break;
                 case SessionState.Establishing:
+                    dispatch({ type: 'call' })
                     break;
                 case SessionState.Established:
                     setupRemoteMedia(inviter, element, optelement);
@@ -154,8 +155,10 @@ function PhoneProvider(props) {
                 // fall through
                 case SessionState.Terminated:
                     sessionRef.current = null
+                    console.log('TERMINATED INVITER SESSION - MY CALL')
                     cleanupMedia(element, optelement);
                     dispatch({ type: 'endtalk' })
+                    console.log(phonestate)
                     break;
                 default:
                     throw new Error("Unknown session state.");
@@ -166,7 +169,7 @@ function PhoneProvider(props) {
 
         sessionRef.current.invite(inviteOptions)
             .then(() => {
-                dispatch({ type: 'call' })
+                console.log('CALLING...')
             })
             .catch((err) => {
                 console.log(err)
@@ -241,7 +244,7 @@ function PhoneProvider(props) {
         //  connect media
         streamRef.current = new MediaStream()
 
-        if (optelement) {
+        if (phonestate.video) {
             optstreamRef.current = new MediaStream()
         }
 
@@ -275,8 +278,10 @@ function PhoneProvider(props) {
                     // fall through
                     case SessionState.Terminated:
                         sessionRef.current = null
+                        console.log('TERMINATED INVITE SESSION - OTHERS CALL')
                         cleanupMedia(element, optelement);
                         dispatch({ type: 'endtalk' })
+                        console.log(phonestate)
                         break;
                     default:
                         throw new Error("Unknown session state.")

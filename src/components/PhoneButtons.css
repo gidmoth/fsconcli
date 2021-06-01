@@ -96,7 +96,7 @@
 .subline {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
     padding-top: 1rem;
 }
@@ -106,6 +106,8 @@
     font-family: 'MaterialIcons', fantasy;
     font-size: calc(1.5rem + 2vmin);
     color: black;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .subbtn:hover {

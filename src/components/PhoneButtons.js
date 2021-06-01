@@ -266,9 +266,11 @@ function PhoneButtons(props) {
                 setInfoNum('')
                 break
             }
+            default: {
+                console.log('DEFDIAL')
+                break
+            }
         }
-        makeCall(infoNum, mediaEl)
-        setInfoNum('')
     }
 
     function clickNum(num) {
