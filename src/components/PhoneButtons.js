@@ -211,6 +211,28 @@ function VidToggle(props) {
     )
 }
 
+// flip cam button
+// toggle video button
+function FlipCam(props) {
+
+    const {
+        phonestate
+    } = useContext(PhoneContext)
+
+    const {
+        flipCam
+    } = props
+
+    return (
+        <span
+            className={phonestate.video ? 'subbtn' : 'nodisp'}
+            onClick={() => flipCam()}
+        >
+            flip_camera_android
+        </span>
+    )
+}
+
 
 // render all buttons
 function PhoneButtons(props) {
@@ -280,6 +302,9 @@ function PhoneButtons(props) {
         <div className={'subline'}>
             <VidToggle
                 toggleVid={toggleVid}
+            />
+            <FlipCam
+                flipCam={flipCam}
             />
         </div>
     </>)
