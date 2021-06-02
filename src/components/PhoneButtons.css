@@ -1,7 +1,7 @@
 .greenredline {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
     padding-top: 1rem;
 }
@@ -15,7 +15,8 @@
     /* box-shadow: .2rem .2rem grey; */
     padding-left: .25rem;
     padding-right: .25rem;
-    margin-left: 15%;
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .green:hover {
@@ -33,7 +34,8 @@
     /* box-shadow: .2rem .2rem grey; */
     padding-left: .25rem;
     padding-right: .25rem;
-    margin-right: 15%;
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .red:hover {
@@ -92,22 +94,14 @@
     background-color: #db7093;
 }
 
-
-.subline {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    padding-top: 1rem;
-}
-
-
 .subbtn {
     font-family: 'MaterialIcons', fantasy;
     font-size: calc(1.5rem + 2vmin);
     color: black;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .subbtn:hover {

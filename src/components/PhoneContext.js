@@ -26,7 +26,7 @@ function reducer(currstate, event) {
             return { ...currstate, ringing: false }
         }
         case 'endtalk': {
-            return { ...currstate, talking: false, dtmf: false }
+            return { ...currstate, talking: false, dtmf: false, calling: false, ringing: false }
         }
         case 'callanswered': {
             return { ...currstate, talking: true, calling: false, dtmf: true }
@@ -45,6 +45,9 @@ function reducer(currstate, event) {
         }
         case 'setstring': {
             return { ...currstate, dialtamplate: event.value }
+        }
+        case 'togdtmf': {
+            return { ...currstate, dtmf: !currstate.dtmf }
         }
     }
 }
@@ -133,7 +136,7 @@ function PhoneProvider(props) {
     // function to make call
     function makeCall(number, element, optelement) {
         if (sessionRef.current) {
-            console.log('\n\n\n\nCANT MAKE TWO CALLS!\n\n\n\n')
+            console.log('CANT MAKE TWO CALLS!')
             return
         }
         const target = UserAgent.makeURI(`sip:${number}@${phonestate.dialtamplate}`)
@@ -155,10 +158,8 @@ function PhoneProvider(props) {
                 // fall through
                 case SessionState.Terminated:
                     sessionRef.current = null
-                    console.log('TERMINATED INVITER SESSION - MY CALL')
                     cleanupMedia(element, optelement);
                     dispatch({ type: 'endtalk' })
-                    console.log(phonestate)
                     break;
                 default:
                     throw new Error("Unknown session state.");
@@ -278,10 +279,8 @@ function PhoneProvider(props) {
                     // fall through
                     case SessionState.Terminated:
                         sessionRef.current = null
-                        console.log('TERMINATED INVITE SESSION - OTHERS CALL')
                         cleanupMedia(element, optelement);
                         dispatch({ type: 'endtalk' })
-                        console.log(phonestate)
                         break;
                     default:
                         throw new Error("Unknown session state.")

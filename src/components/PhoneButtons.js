@@ -8,20 +8,37 @@ function GreenBtn(props) {
 
     const {
         phonestate,
-        answerCall
+        answerCall,
+        phonedispatch
     } = useContext(PhoneContext)
 
     const {
-        dial
+        dial,
+        infoNum
     } = props
 
-    function getClass() {
-        return (
-            phonestate.talking ||
-                phonestate.calling ?
-                'green disabled' : 'green'
-        )
-    }
+    const [myClass, setMyClass] = useState('green')
+
+    useEffect(() => {
+        switch (true) {
+            case phonestate.talking: {
+                setMyClass('green disabled')
+                break
+            }
+            case phonestate.calling: {
+                setMyClass('green disabled')
+                break
+            }
+            case phonestate.ringing: {
+                setMyClass('green')
+                break
+            }
+            default: {
+                setMyClass('green')
+                break
+            }
+        }
+    }, [phonestate,  infoNum])
 
     function clickAct() {
         switch (true) {
@@ -33,15 +50,19 @@ function GreenBtn(props) {
                 answerCall()
                 break
             }
-            default:
+            case infoNum.length > 0: {
                 dial()
+                break
+            }
+            default:
+                phonedispatch({ type: 'togdtmf' })
                 break
         }
     }
 
     return <span
         onClick={() => clickAct()}
-        className={getClass()}>
+        className={myClass}>
         call
     </span>
 }
@@ -57,24 +78,24 @@ function RedBtn(props) {
 
     const { clearAll, infoNum } = props
 
-    function getClass() {
+    const [myClass, setMyClass] = useState('red disabled')
+
+    useEffect(() => {
         switch (true) {
             case phonestate.talking || phonestate.calling || phonestate.ringing: {
-                return 'red'
+                setMyClass('red')
+                break
             }
-            case !phonestate.talking && !phonestate.calling && !phonestate.ringing: {
-                switch (true) {
-                    case infoNum.length > 0: {
-                        return 'red'
-                    }
-                    default: {
-                        return 'red disabled'
-                    }
-                }
+            case infoNum.length > 0: {
+                setMyClass('red')
+                break
+            }
+            default: {
+                setMyClass('red disabled')
+                break
             }
         }
-
-    }
+    }, [phonestate, infoNum])
 
     function clickAct() {
         switch (true) {
@@ -82,24 +103,21 @@ function RedBtn(props) {
                 endCall()
                 break
             }
-            case !phonestate.talking && !phonestate.calling && !phonestate.ringing: {
-                switch (true) {
-                    case infoNum.length > 0: {
-                        clearAll()
-                        break
-                    }
-                    default: {
-                        console.log('clicked disabled red')
-                        break
-                    }
-                }
+            case infoNum.length > 0: {
+                clearAll()
+                break
+            }
+            default: {
+                console.log('clicked disabled red')
+                break
             }
         }
     }
 
+
     return <span
         onClick={() => clickAct()}
-        className={getClass()}>
+        className={myClass}>
         call_end
     </span>
 }
@@ -114,9 +132,20 @@ function PadBtn(props) {
         phonestate
     } = useContext(PhoneContext)
 
-    function getClass() {
-        return (phonestate.dtmf ? 'PadBtn dtmf' : 'PadBtn')
-    }
+    const [myClass, setMyClass] = useState('PadBtn')
+
+    useEffect(() => {
+        switch (phonestate.dtmf) {
+            case true: {
+                setMyClass('PadBtn dtmf')
+                break
+            }
+            case false: {
+                setMyClass('PadBtn')
+                break
+            }
+        }
+    }, [phonestate.dtmf])
 
     function clickAct() {
         if (phonestate.dtmf) {
@@ -128,7 +157,7 @@ function PadBtn(props) {
 
     return <span
         onClick={() => clickAct()}
-        className={getClass()}>
+        className={myClass}>
         {sign}
     </span>
 }
@@ -136,18 +165,24 @@ function PadBtn(props) {
 // the numpad
 function Pad(props) {
 
-    const { clickNum } = props
-
     const {
-        phonestate
-    } = useContext(PhoneContext)
+        clickNum,
+        showPad
+    } = props
 
-    function getClass() {
-        return ('Pad')
-    }
+    const [myClass, setMyClass] = useState('Pad')
+
+    useEffect(() => {
+        if (showPad) {
+            setMyClass('Pad')
+        } else {
+            setMyClass('nodisp')
+        }
+    }, [showPad])
+
 
     return <div
-        className={getClass()}>
+        className={myClass}>
         <PadBtn sign='1' clickNum={clickNum} />
         <PadBtn sign='2' clickNum={clickNum} />
         <PadBtn sign='3' clickNum={clickNum} />
@@ -233,11 +268,29 @@ function FlipCam(props) {
     )
 }
 
+//toggle  Pad
+function TogPad(props) {
+
+    const {
+        togPad
+    } = props
+
+    return (
+        <span
+            className={'subbtn'}
+            onClick={() =>  togPad()}
+        >
+            dialpad
+        </span>
+    )
+}
+
 
 // render all buttons
 function PhoneButtons(props) {
 
     const [infoNum, setInfoNum] = useState('')
+    const [showPad, setShowPad] = useState(true)
 
     const {
         phonedispatch,
@@ -253,6 +306,14 @@ function PhoneButtons(props) {
         toggleVid,
         flipCam
     } = props
+
+    useEffect(() => {
+        console.log(`BtnContainer: ${JSON.stringify(phonestate)}`)
+    }, [phonestate])
+
+    function togPad() {
+        setShowPad(prev => !prev)
+    }
 
     function dial() {
         switch (phonestate.video) {
@@ -290,23 +351,27 @@ function PhoneButtons(props) {
             infoNum={infoNum}
             clickClear={clickClear}
         />
-        <Pad clickNum={clickNum} />
+        <Pad
+            clickNum={clickNum}
+            showPad={showPad}
+        />
         <div className={'greenredline'}>
             <GreenBtn
                 dial={dial}
                 infoNum={infoNum}
             />
-            <RedBtn
-                clearAll={clearAll}
-                infoNum={infoNum}
+            <TogPad
+                togPad={togPad}
             />
-        </div>
-        <div className={'subline'}>
             <VidToggle
                 toggleVid={toggleVid}
             />
             <FlipCam
                 flipCam={flipCam}
+            />
+            <RedBtn
+                clearAll={clearAll}
+                infoNum={infoNum}
             />
         </div>
     </>)
