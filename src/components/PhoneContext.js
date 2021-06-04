@@ -177,6 +177,59 @@ function PhoneProvider(props) {
             })
     }
 
+    // function to send dtmf
+    function sendDtmf(sig, element, optelement) {
+        const options = {
+            requestOptions: {
+                body: {
+                    contentDisposition: 'render',
+                    contentType: 'application/dtmf-relay',
+                    content: `Signal=${sig}\r\nDuration=2000`
+                }
+            }
+        }
+        if (sessionRef.current) {
+            sessionRef.current.info(options)
+            return
+        }
+        const target = UserAgent.makeURI(`sip:${sig}@${phonestate.dialtamplate}`)
+        const inviter = new Inviter(phoneRef.current, target)
+        sessionRef.current = inviter
+        sessionRef.current.stateChange.addListener((state) => {
+            console.log(`Session state changed to ${state}`);
+            switch (state) {
+                case SessionState.Initial:
+                    break;
+                case SessionState.Establishing:
+                    dispatch({ type: 'call' })
+                    break;
+                case SessionState.Established:
+                    setupRemoteMedia(inviter, element, optelement);
+                    dispatch({ type: 'callanswered' })
+                    break;
+                case SessionState.Terminating:
+                // fall through
+                case SessionState.Terminated:
+                    sessionRef.current = null
+                    cleanupMedia(element, optelement);
+                    dispatch({ type: 'endtalk' })
+                    break;
+                default:
+                    throw new Error("Unknown session state.");
+            }
+        })
+
+        const inviteOptions = getInviterOptions()
+
+        sessionRef.current.invite(inviteOptions)
+            .then(() => {
+                console.log('CALLING...')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     // function to accept call
     function answerCall() {
         const acceptOptions = getInviterOptions()
@@ -332,7 +385,8 @@ function PhoneProvider(props) {
         phonedispatch: dispatch,
         answerCall: answerCall,
         makeCall: makeCall,
-        endCall: endCall
+        endCall: endCall,
+        sendDtmf: sendDtmf
     }
 
     return (

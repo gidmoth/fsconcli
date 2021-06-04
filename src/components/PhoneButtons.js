@@ -38,7 +38,7 @@ function GreenBtn(props) {
                 break
             }
         }
-    }, [phonestate,  infoNum])
+    }, [phonestate, infoNum])
 
     function clickAct() {
         switch (true) {
@@ -126,7 +126,11 @@ function RedBtn(props) {
 // buttons  for numpad
 function PadBtn(props) {
 
-    const { sign, clickNum } = props
+    const {
+        sign,
+        clickNum,
+        dtmfSend
+    } = props
 
     const {
         phonestate
@@ -149,7 +153,7 @@ function PadBtn(props) {
 
     function clickAct() {
         if (phonestate.dtmf) {
-            console.log(`pad ${sign} clicked dtmf`)
+            dtmfSend(sign)
         } else {
             clickNum(sign)
         }
@@ -167,7 +171,8 @@ function Pad(props) {
 
     const {
         clickNum,
-        showPad
+        showPad,
+        dtmfSend
     } = props
 
     const [myClass, setMyClass] = useState('Pad')
@@ -183,18 +188,18 @@ function Pad(props) {
 
     return <div
         className={myClass}>
-        <PadBtn sign='1' clickNum={clickNum} />
-        <PadBtn sign='2' clickNum={clickNum} />
-        <PadBtn sign='3' clickNum={clickNum} />
-        <PadBtn sign='4' clickNum={clickNum} />
-        <PadBtn sign='5' clickNum={clickNum} />
-        <PadBtn sign='6' clickNum={clickNum} />
-        <PadBtn sign='7' clickNum={clickNum} />
-        <PadBtn sign='8' clickNum={clickNum} />
-        <PadBtn sign='9' clickNum={clickNum} />
-        <PadBtn sign='*' clickNum={clickNum} />
-        <PadBtn sign='0' clickNum={clickNum} />
-        <PadBtn sign='#' clickNum={clickNum} />
+        <PadBtn sign='1' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='2' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='3' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='4' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='5' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='6' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='7' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='8' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='9' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='*' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='0' clickNum={clickNum} dtmfSend={dtmfSend} />
+        <PadBtn sign='#' clickNum={clickNum} dtmfSend={dtmfSend} />
     </div>
 }
 
@@ -278,7 +283,7 @@ function TogPad(props) {
     return (
         <span
             className={'subbtn'}
-            onClick={() =>  togPad()}
+            onClick={() => togPad()}
         >
             dialpad
         </span>
@@ -298,6 +303,7 @@ function PhoneButtons(props) {
         answerCall,
         makeCall,
         endCall,
+        sendDtmf
     } = useContext(PhoneContext)
 
     const {
@@ -334,6 +340,25 @@ function PhoneButtons(props) {
         }
     }
 
+    function dtmfSend(sign) {
+        switch (phonestate.video) {
+            case false: {
+                sendDtmf(sign, mediaEl)
+                setInfoNum('')
+                break
+            }
+            case true: {
+                sendDtmf(sign, mediaEl, optmediaEl)
+                setInfoNum('')
+                break
+            }
+            default: {
+                console.log('DEFDIAL')
+                break
+            }
+        }
+    }
+
     function clickNum(num) {
         setInfoNum(prev => `${prev}` + `${num}`)
     }
@@ -353,6 +378,7 @@ function PhoneButtons(props) {
         />
         <Pad
             clickNum={clickNum}
+            dtmfSend={dtmfSend}
             showPad={showPad}
         />
         <div className={'greenredline'}>

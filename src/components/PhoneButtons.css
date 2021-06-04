@@ -62,6 +62,7 @@
 
 .phoneInfo  {
     font-family: 'IBMPlexMono';
+    font-weight: bold;
     font-size: calc(1.5rem + 2vmin);
     flex:  1;
     display: flex;
@@ -71,10 +72,15 @@
 }
 
 .infonum  {
-    background-color: #ffefd5;
+    /* background-color: #ffefd5; */
     padding-left: .8rem;
     padding-right: .8rem;
     margin-right: .8rem;
+    text-shadow: 
+        -1px -1px 0 #ffefd5,
+        1px -1px 0 #ffefd5,
+        -1px 1px 0 #ffefd5,
+        1px 1px 0 #ffefd5;
 }
 
 .numclear {
@@ -102,6 +108,11 @@
     padding-right: .25rem;
     margin-left: .5rem;
     margin-right: .5rem;
+    text-shadow: 
+        -1px -1px 0 #ffefd5,
+        1px -1px 0 #ffefd5,
+        -1px 1px 0 #ffefd5,
+        1px 1px 0 #ffefd5;
 }
 
 .subbtn:hover {
