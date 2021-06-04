@@ -368,6 +368,7 @@ function PhoneButtons(props) {
                 setPinfoVal('')
                 setPinfoAct('')
                 setShowPinfo(false)
+                setShowPad(true)
                 break
             }
             default:
