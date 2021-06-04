@@ -1,6 +1,7 @@
 import './PhoneButtons.css';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { PhoneContext } from './PhoneContext'
+import { XmlContext } from './XmlContext';
 
 
 // the  call  button
@@ -209,21 +210,13 @@ function InfoBox(props) {
 
     const { infoNum, clickClear } = props
 
-    function getclearCls() {
-        return (infoNum.length > 0 ? 'numclear' : 'nodisp')
-    }
-
-    function getinfoCls() {
-        return (infoNum.length > 0 ? 'infonum' : 'nodisp')
-    }
-
     return (
-        <div className={'phoneInfo'}>
-            <div className={getinfoCls()}>
+        <div className={infoNum.length > 0 ? 'phoneInfo' : 'nodisp'}>
+            <div className={'infonum'}>
                 {infoNum}
             </div>
             <div
-                className={getclearCls()}
+                className={'numclear'}
                 onClick={clickClear}
             >backspace</div>
         </div>
@@ -243,7 +236,10 @@ function VidToggle(props) {
 
     return (
         <span
-            className={'subbtn'}
+            className={phonestate.calling ||
+                phonestate.ringing ||
+                phonestate.talking ?
+                'nodisp' : 'subbtn'}
             onClick={() => toggleVid()}
         >
             {phonestate.video ? 'videocam_off' : 'videocam'}
@@ -290,12 +286,32 @@ function TogPad(props) {
     )
 }
 
+// passive Info
+function PassInfoBox(props) {
+
+    const { action, value, show } = props
+
+    return (
+        <div className={show ? 'passInfo' : 'nodisp'}>
+            <div className={'passact'}>
+                {action}
+            </div>
+            <div className={'passval'}>
+                {value}
+            </div>
+        </div>
+    )
+}
+
 
 // render all buttons
 function PhoneButtons(props) {
 
     const [infoNum, setInfoNum] = useState('')
     const [showPad, setShowPad] = useState(true)
+    const [pinfoVal, setPinfoVal] = useState('')
+    const [pinfoAct, setPinfoAct] = useState('')
+    const [showPinfo, setShowPinfo] = useState(false)
 
     const {
         phonedispatch,
@@ -307,15 +323,61 @@ function PhoneButtons(props) {
     } = useContext(PhoneContext)
 
     const {
+        xmlState
+    } = useContext(XmlContext)
+
+    const {
         mediaEl,
         optmediaEl,
         toggleVid,
         flipCam
     } = props
 
+    function getCallee(num) {
+        if (xmlState.users.find(usr =>  usr.id === num) !== undefined) {
+            return xmlState.users.find(usr =>  usr.id === num).name
+        }
+        if (xmlState.conferences.find(conf =>  conf.num === num) !== undefined) {
+            return xmlState.conferences.find(conf =>  conf.num === num).name
+        }
+        return num
+    }
+
     useEffect(() => {
-        console.log(`BtnContainer: ${JSON.stringify(phonestate)}`)
+        switch (true) {
+            case phonestate.ringing: {
+                setShowPad(false)
+                setPinfoVal(`${phonestate.caller}`)
+                setPinfoAct('call from')
+                setShowPinfo(true)
+                break
+            }
+            case phonestate.calling: {
+                setShowPad(false)
+                setPinfoVal(`${getCallee(phonestate.callee)}`)
+                setPinfoAct('calling')
+                setShowPinfo(true)
+                break
+            }
+            case phonestate.talking: {
+                setPinfoAct(`talking to ${pinfoVal}`)
+                setPinfoVal('')
+                break
+            }
+            case !phonestate.talking: {
+                setPinfoVal('')
+                setPinfoAct('')
+                setShowPinfo(false)
+                break
+            }
+            default:
+                setPinfoVal('')
+                setPinfoAct('')
+                setShowPinfo(false)
+        }
     }, [phonestate])
+
+
 
     function togPad() {
         setShowPad(prev => !prev)
@@ -372,6 +434,11 @@ function PhoneButtons(props) {
     }
 
     return (<>
+        <PassInfoBox
+            action={pinfoAct}
+            value={pinfoVal}
+            show={showPinfo}
+        />
         <InfoBox
             infoNum={infoNum}
             clickClear={clickClear}

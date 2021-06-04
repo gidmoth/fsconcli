@@ -14,7 +14,7 @@ function reducer(currstate, event) {
             return { ...currstate, registered: false }
         }
         case 'ring': {
-            return { ...currstate, ringing: true, pop: true }
+            return { ...currstate, ringing: true, pop: true,  caller: event.value }
         }
         case 'popped': {
             return { ...currstate, pop: false }
@@ -23,19 +23,19 @@ function reducer(currstate, event) {
             return { ...currstate, talking: true, dtmf: true }
         }
         case 'unring': {
-            return { ...currstate, ringing: false }
+            return { ...currstate, ringing: false, caller:  '' }
         }
         case 'endtalk': {
-            return { ...currstate, talking: false, dtmf: false, calling: false, ringing: false }
+            return { ...currstate, talking: false, dtmf: false, calling: false, ringing: false,  caller:  '', callee: '' }
         }
         case 'callanswered': {
             return { ...currstate, talking: true, calling: false, dtmf: true }
         }
         case 'call': {
-            return { ...currstate, calling: true }
+            return { ...currstate, calling: true,  callee: event.value }
         }
         case 'uncall': {
-            return { ...currstate, calling: false }
+            return { ...currstate, calling: false, callee: '' }
         }
         case 'callaccept': {
             return { ...currstate, ringing: false, talking: true, dtmf: true }
@@ -77,7 +77,9 @@ function PhoneProvider(props) {
         video: false,
         talking: false,
         dtmf: false,
-        dialtamplate: ''
+        dialtamplate: '',
+        caller: '',
+        callee: '',
     })
 
     //  connect media
@@ -148,7 +150,7 @@ function PhoneProvider(props) {
                 case SessionState.Initial:
                     break;
                 case SessionState.Establishing:
-                    dispatch({ type: 'call' })
+                    dispatch({ type: 'call', value: number })
                     break;
                 case SessionState.Established:
                     setupRemoteMedia(inviter, element, optelement);
@@ -184,7 +186,7 @@ function PhoneProvider(props) {
                 body: {
                     contentDisposition: 'render',
                     contentType: 'application/dtmf-relay',
-                    content: `Signal=${sig}\r\nDuration=2000`
+                    content: `Signal=${sig}\r\nDuration=100`
                 }
             }
         }
@@ -201,7 +203,7 @@ function PhoneProvider(props) {
                 case SessionState.Initial:
                     break;
                 case SessionState.Establishing:
-                    dispatch({ type: 'call' })
+                    dispatch({ type: 'call', value: sig })
                     break;
                 case SessionState.Established:
                     setupRemoteMedia(inviter, element, optelement);
@@ -304,7 +306,6 @@ function PhoneProvider(props) {
 
         // delegate call receiving
         function onInvite(invitation) {
-            console.log(invitation.remoteIdentity._displayName)
             if (sessionRef.current) {
                 invitation.reject()
                     .then(() => {
@@ -315,7 +316,7 @@ function PhoneProvider(props) {
                     })
                 return
             }
-            dispatch({ type: 'ring' })
+            dispatch({ type: 'ring',  value: `${invitation.remoteIdentity._displayName}` })
             sessionRef.current = invitation
             sessionRef.current.stateChange.addListener((state) => {
                 console.log(`Session state changed to ${state}`)
