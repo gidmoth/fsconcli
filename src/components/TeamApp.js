@@ -7,7 +7,7 @@ import Info from './team/Info'
 import Monitor from './team/Monitor'
 import AppHeader from './AppHeader'
 import useGetXmlState from './team/useGetXmlState'
-import useInitSocket from './team/useInitSocket'
+//import useInitSocket from './team/useInitSocket'
 import { XmlContext } from './XmlContext'
 import { SocketContext } from './SocketContext'
 import { LiveContext } from './LiveContext'
@@ -19,7 +19,7 @@ function TeamApp(props) {
 
   // get contexts
   const { newxml } = useContext(XmlContext)
-  const { initsocket, socket } = useContext(SocketContext)
+  const { initsocket, socket, sendreq } = useContext(SocketContext)
   const { dispatcher } = useContext(LiveContext)
 
   // get xmlState
@@ -29,9 +29,40 @@ function TeamApp(props) {
   } = useGetXmlState(props.apiorigin, newxml)
 
   // init socket
-  const {
+  /* const {
     sockReady
-  } = useInitSocket(props.user, props.apiorigin, initsocket, socket, dispatcher)
+  } = useInitSocket(props.user, props.apiorigin, initsocket, socket, dispatcher) */
+
+  //  init Livestate
+  useEffect(() => {
+    if (!socket.current) {
+      console.log(`NO  SOCKET!!`)
+      const { password, name } = props.user
+      const urlbase = `wss://${props.apiorigin.split('//')[1]}`
+      initsocket(`${urlbase}/api/live?login=${name}:${password}`)
+    }
+  }, [socket])
+
+  useEffect(() => {
+    if (socket.current) {
+      console.log(`GOT SOCKET!!`)
+      socket.current.onmessage = function (evn) {
+        dispatcher(JSON.parse(evn.data))
+      }
+      socket.current.onopen = function (evn) {
+        sendreq({ req: 'init' })
+        sendreq({ req: 'initreg' })
+      }
+      console.log('listener setup!')
+      console.log(socket.current)
+      //sendreq({req: 'init'})
+      //sendreq({req: 'initreg'})
+      /* return () => {
+        socket.close()
+        console.log('socket closed')
+      } */
+    }
+  }, [socket])
 
   // to pass down
   function switchMode(newmode) {
@@ -49,7 +80,7 @@ function TeamApp(props) {
       />
       { mode === 'info' ? <Info /> : <Monitor />}
       {loading && <p>Loading...</p>}
-      {!sockReady && <p>Initializing socket...</p>}
+      {!socket && <p>Initializing socket...</p>}
     </>
   );
 }

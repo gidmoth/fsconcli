@@ -62,6 +62,13 @@ function reducer(currstate, event) {
                         registrations: regstatecopy(currstate.registrations)
                     }
                 }
+                case 'initreg': {
+                    console.log(`REGDATA: ${event.data}`)
+                    return {
+                        conferences: confstatecopy(currstate.conferences),
+                        registrations: event.data
+                    }
+                }
                 default: {
                     console.log(`unhandled: ${JSON.stringify(event)}`)
                     return newstate(currstate)
@@ -77,6 +84,15 @@ function reducer(currstate, event) {
             switch (event.event) {
                 case 'newConference': {
                     returnstate.conferences.push(event.data)
+                    return returnstate
+                }
+                case  'addReg': {
+                    returnstate.registrations.push(event.user)
+                    return returnstate
+                }
+                case 'delReg': {
+                    let  regidx = returnstate.registrations.indexOf(event.user)
+                    returnstate.registrations.splice(regidx, 1)
                     return returnstate
                 }
                 default: {
