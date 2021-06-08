@@ -57,10 +57,11 @@ function TeamApp(props) {
       console.log(socket.current)
       //sendreq({req: 'init'})
       //sendreq({req: 'initreg'})
-      /* return () => {
-        socket.close()
+      return () => {
+        socket.current.close()
+        socket.current = null
         console.log('socket closed')
-      } */
+      }
     }
   }, [socket])
 
