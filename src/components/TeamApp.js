@@ -20,7 +20,7 @@ function TeamApp(props) {
   // get contexts
   const { newxml } = useContext(XmlContext)
   const { initsocket, socket, sendreq } = useContext(SocketContext)
-  const { dispatcher } = useContext(LiveContext)
+  const { dispatcher, liveState } = useContext(LiveContext)
 
   // get xmlState
   const {
@@ -55,8 +55,6 @@ function TeamApp(props) {
       }
       console.log('listener setup!')
       console.log(socket.current)
-      //sendreq({req: 'init'})
-      //sendreq({req: 'initreg'})
       return () => {
         socket.current.close()
         socket.current = null
@@ -64,6 +62,15 @@ function TeamApp(props) {
       }
     }
   }, [socket])
+
+  useEffect(() => {
+    if (liveState.oldxml) {
+      handleXmlChange()
+      dispatcher({event: 'gotXML'})
+    }
+  }, [liveState.oldxml])
+
+
 
   // to pass down
   function switchMode(newmode) {

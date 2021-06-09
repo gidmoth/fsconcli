@@ -45,13 +45,17 @@ function reducer(currstate, event) {
         } else {
             return []
         }
+    }
 
+    function oldxmlcopy(oldxml) {
+        return oldxml
     }
 
     function newstate(currstate) {
         return {
             conferences: confstatecopy(currstate.conferences),
-            registrations: regstatecopy(currstate.registrations)
+            registrations: regstatecopy(currstate.registrations),
+            oldxml: oldxmlcopy(currstate.oldxml)
         }
     }
 
@@ -60,24 +64,38 @@ function reducer(currstate, event) {
         case 'newLiveState': {
             return {
                 conferences: event.data,
-                registrations: regstatecopy(currstate.registrations)
+                registrations: regstatecopy(currstate.registrations),
+                oldxml: oldxmlcopy(currstate.oldxml)
             }
         }
         case 'newXML': {
-            console.log(`NEW  XML: ${JSON.stringify(event)}`)
+            return {
+                conferences: confstatecopy(currstate.conferences),
+                registrations: regstatecopy(currstate.registrations),
+                oldxml: true
+            }
+        }
+        case 'gotXML': {
+            return {
+                conferences: confstatecopy(currstate.conferences),
+                registrations: regstatecopy(currstate.registrations),
+                oldxml: false
+            }
         }
         case 'reply': {
             switch (event.reply) {
                 case 'init': {
                     return {
                         conferences: event.data,
-                        registrations: regstatecopy(currstate.registrations)
+                        registrations: regstatecopy(currstate.registrations),
+                        oldxml: oldxmlcopy(currstate.oldxml)
                     }
                 }
                 case 'initreg': {
                     return {
                         conferences: confstatecopy(currstate.conferences),
-                        registrations: event.data
+                        registrations: event.data,
+                        oldxml: oldxmlcopy(currstate.oldxml)
                     }
                 }
                 default: {
@@ -204,7 +222,8 @@ function LiveProvider(props) {
     //  get a state for xmlstate
     const [liveState, dispatch] = useReducer(reducer, {
         conferences: [],
-        registrations: []
+        registrations: [],
+        oldxml: false
     })
 
     // things to get used by components
