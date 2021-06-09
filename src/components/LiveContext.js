@@ -63,6 +63,9 @@ function reducer(currstate, event) {
                 registrations: regstatecopy(currstate.registrations)
             }
         }
+        case 'newXML': {
+            console.log(`NEW  XML: ${JSON.stringify(event)}`)
+        }
         case 'reply': {
             switch (event.reply) {
                 case 'init': {
