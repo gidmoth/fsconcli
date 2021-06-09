@@ -35,8 +35,12 @@ function reducer(currstate, event) {
         return confarray.map(cnf => confcopy(cnf))
     }
 
+    function regusrcp(usr) {
+        return { ...usr }
+    }
+
     function regstatecopy(regarray) {
-        return [...regarray]
+        return regarray.map(usr  => regusrcp(usr))
     }
 
     function newstate(currstate) {
@@ -63,7 +67,6 @@ function reducer(currstate, event) {
                     }
                 }
                 case 'initreg': {
-                    console.log(`REGDATA: ${event.data}`)
                     return {
                         conferences: confstatecopy(currstate.conferences),
                         registrations: event.data
@@ -91,7 +94,7 @@ function reducer(currstate, event) {
                     return returnstate
                 }
                 case 'delReg': {
-                    let  regidx = returnstate.registrations.indexOf(event.user)
+                    let  regidx = returnstate.registrations.findIndex(user => user.regid === event.user.regid)
                     returnstate.registrations.splice(regidx, 1)
                     return returnstate
                 }
