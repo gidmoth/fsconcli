@@ -40,7 +40,12 @@ function reducer(currstate, event) {
     }
 
     function regstatecopy(regarray) {
-        return regarray.map(usr  => regusrcp(usr))
+        if (regarray.length > 0) {
+            return regarray.map(usr => regusrcp(usr))
+        } else {
+            return []
+        }
+
     }
 
     function newstate(currstate) {
@@ -89,12 +94,12 @@ function reducer(currstate, event) {
                     returnstate.conferences.push(event.data)
                     return returnstate
                 }
-                case  'addReg': {
+                case 'addReg': {
                     returnstate.registrations.push(event.user)
                     return returnstate
                 }
                 case 'delReg': {
-                    let  regidx = returnstate.registrations.findIndex(user => user.regid === event.user.regid)
+                    let regidx = returnstate.registrations.findIndex(user => user.regid === event.user.regid)
                     returnstate.registrations.splice(regidx, 1)
                     return returnstate
                 }
@@ -154,11 +159,11 @@ function reducer(currstate, event) {
                             let memidx = returnstate.conferences[confidx].members
                                 .findIndex(mem => mem.id === event.data)
                             switch (event.event) {
-                                case  'delMember': {
+                                case 'delMember': {
                                     returnstate.conferences[confidx].lastleave = returnstate.conferences[confidx].members[memidx]
                                     returnstate.conferences[confidx].members.splice(memidx, 1)
                                     returnstate.conferences[confidx].memcount--
-                                    return returnstate                                    
+                                    return returnstate
                                 }
                                 case 'mute': {
                                     returnstate.conferences[confidx].members[memidx].mute = true
