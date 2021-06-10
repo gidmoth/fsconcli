@@ -87,6 +87,14 @@ strong em {
   font-style: italic;
 }
 
+dt {
+  font-weight: bold;
+}
+
+dd  {
+  margin-bottom: 1rem;
+}
+
 /* classes */
 .RootDiv {
   flex: 1;
@@ -114,4 +122,5 @@ strong em {
   cursor: pointer;
   color: #db7093;
 }
+
 

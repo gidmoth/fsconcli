@@ -28,11 +28,6 @@ function TeamApp(props) {
     handleXmlChange
   } = useGetXmlState(props.apiorigin, newxml)
 
-  // init socket
-  /* const {
-    sockReady
-  } = useInitSocket(props.user, props.apiorigin, initsocket, socket, dispatcher) */
-
   //  init Livestate
   useEffect(() => {
     if (!socket.current) {
@@ -66,7 +61,7 @@ function TeamApp(props) {
   useEffect(() => {
     if (liveState.oldxml) {
       handleXmlChange()
-      dispatcher({event: 'gotXML'})
+      dispatcher({ event: 'gotXML' })
     }
   }, [liveState.oldxml])
 
@@ -86,7 +81,13 @@ function TeamApp(props) {
         mode={mode}
         user={props.user}
       />
-      { mode === 'info' ? <Info /> : <Monitor />}
+      { mode === 'info' ?
+        <Info
+          user={props.user}
+          apiorigin={props.apiorigin}
+        /> :
+        <Monitor />
+      }
       {loading && <p>Loading...</p>}
       {!socket && <p>Initializing socket...</p>}
     </>
