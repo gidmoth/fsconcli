@@ -15,6 +15,7 @@
     /* text-decoration: underline; */
     padding-left: 1%;
     padding-right: 1%;
+    margin-top: 1rem;
 }
 
 .headchoice:hover {
@@ -40,6 +41,11 @@
     background: #282c34;
     color: white;
     padding: 1rem;
+}
+
+.infoheadline {
+    font-size: calc(1rem + 2vmin);
+    font-weight: bold;
 }
 
 .noavail {

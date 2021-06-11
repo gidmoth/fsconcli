@@ -1,0 +1,21 @@
+.users {
+    width: 100%;
+    max-width: 98vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    /* margin-top: 1rem; */
+}
+
+.usersmain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.ctxfiltersep {
+    width: 100%;
+}

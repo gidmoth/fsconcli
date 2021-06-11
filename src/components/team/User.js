@@ -2,7 +2,7 @@
  * render a user
  */
 
-//import './User.css';
+import './User.css';
 
 function User(props) {
 
@@ -14,7 +14,7 @@ function User(props) {
         context,
         email,
         polymac
-    } = props.data
+    } = props.user
     
     return (
         <div className="User">

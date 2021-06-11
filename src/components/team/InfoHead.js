@@ -32,7 +32,7 @@ function InfoHead(props) {
                 className={'headchoice'}
                 onClick={togMenu}
             >
-                <span className={'symb'}>info</span>
+                <span className={'infoheadline'}>{mode}</span>
                 <span className={'symb'}>{open ? 'expand_less' : 'expand_more'}</span>
             </div>
             <div
