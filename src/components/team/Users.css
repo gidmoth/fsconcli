@@ -3,7 +3,7 @@
     max-width: 98vw;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content:  space-around;
     align-items: flex-start;
     flex-wrap: wrap;
     /* margin-top: 1rem; */
@@ -16,6 +16,42 @@
     width: 100%;
 }
 
-.ctxfiltersep {
+.searchbox {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:  1rem;
+    align-items: center;
+}
+
+.addbox {
     width: 100%;
+}
+
+.opttag {
+    justify-self: end;
+}
+
+.filtersep {
+    width: 100%;
+}
+
+.nodisp {
+    display: none;
+}
+
+.smallsymb {
+    font-family: 'MaterialIcons', fantasy;
+}
+
+.usermenu {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.greyed {
+    color: rgba(0, 0, 0, 0.3);
 }

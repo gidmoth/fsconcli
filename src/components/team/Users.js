@@ -4,24 +4,46 @@
 
 import './Users.css';
 import User from './User'
-import { useContext, useEffect, useReducer } from 'react'
+import { useContext, useEffect, useReducer, useRef } from 'react'
 import { XmlContext } from '../XmlContext'
+import Filterlist from './Filterlist'
 
-function getUserList(users, ctxf) {
+function uniquify(val, idx, arr) {
+    return arr.findIndex(elem => elem.id === val.id) === idx
+}
+
+function getUserList(users, ctxf, filter) {
+    let ctxret = []
     switch (ctxf) {
         case 'all': {
-            return users
+            ctxret = [...users]
+            break
         }
         case 'team': {
-            return users.filter(usr => usr.context === 'team')
+            ctxret = users.filter(usr => usr.context === 'team')
+            break
         }
         case 'friends': {
-            return users.filter(usr => usr.context === 'friends')
+            ctxret = users.filter(usr => usr.context === 'friends')
+            break
         }
         case 'public': {
-            return users.filter(usr => usr.context === 'public')
+            ctxret = users.filter(usr => usr.context === 'public')
+            break
+        }
+        default: {
+            console.log('hit default :-(')
         }
     }
+    if (filter === '') {
+        return ctxret
+    }
+    let namesmatch = ctxret.filter(usr => usr.name.includes(filter))
+    let emailsmatch = ctxret.filter(usr => usr.email.includes(filter))
+    let polymatch = ctxret.filter(usr => usr.polymac.includes(filter))
+    let idmatch = ctxret.filter(usr => usr.id.includes(filter))
+    let retarr = [...namesmatch, ...emailsmatch, ...polymatch, ...idmatch]
+    return retarr.filter(uniquify)
 }
 
 
@@ -32,6 +54,19 @@ function reducer(currstate, evn) {
         }
         case 'newuserlist': {
             return { ...currstate, userlist: evn.data }
+        }
+        case 'filterchange': {
+            return { ...currstate, filter: evn.data }
+        }
+        case 'usersearch': {
+            return (
+                currstate.mode === 'search' ?
+                    { ...currstate, filter: '', ctxfilter: 'all' } :
+                    { ...currstate, mode: 'search' }
+            )
+        }
+        case 'useradd': {
+            return { ...currstate, mode: 'add' }
         }
         default: {
             console.log('hit default!')
@@ -45,31 +80,70 @@ function Users(props) {
 
     const { users } = xmlState
 
+    const searchRef = useRef()
+
     const [state, dispatch] = useReducer(reducer, {
         ctxfilter: 'all',
-        userlist: users
+        userlist: users,
+        filter: '',
+        mode: 'search'
     })
 
     useEffect(() => {
-        dispatch({e: 'newuserlist',  data: getUserList(users,  state.ctxfilter)})
-    }, [state.ctxfilter])
+        dispatch({ e: 'newuserlist', data: getUserList(users, state.ctxfilter, state.filter) })
+        if  (state.filter === '') {
+            searchRef.current.value=''
+        }
+    }, [state.ctxfilter, state.filter])
+
+    function filterchange(evn) {
+        dispatch({ e: 'filterchange', data: evn.target.value })
+    }
 
     return (
         <>
             <div className={'usersmain'}>
-                <div>Usersmain</div>
-                <div className={'ctxfiltersep'}>
-                    Contextfilter:&nbsp;&nbsp;
-                    <select
-                    value={state.ctxfilter}
-                    onChange={e => dispatch({e: 'ctxfilterch', data: `${e.target.value}`})}
+                <div className={'usermenu'}>
+                    <span
+                        className={state.mode === 'add' ? 'symb greyed' : 'symb'}
+                        onClick={() => dispatch({ e: 'useradd' })}
                     >
-                        <option value='all'>all</option>
-                        <option value='team'>team</option>
-                        <option value='friends'>friends</option>
-                        <option value='public'>public</option>
-                    </select>
-                    <hr/>
+                        person_add
+                    </span>
+                    <span
+                        className={state.mode === 'search' ? 'symb greyed' : 'symb'}
+                        onClick={() => dispatch({ e: 'usersearch' })}
+                    >
+                        person_search
+                    </span>
+                </div>
+                <div className={state.mode === 'search' ? 'searchbox' : 'nodisp'}>
+                    <div className={'opttag'}><strong>Context:</strong></div>
+                    <div>
+                        <select
+                            value={state.ctxfilter}
+                            onChange={e => dispatch({ e: 'ctxfilterch', data: `${e.target.value}` })}
+                        >
+                            <option value='all'>all</option>
+                            <option value='team'>team</option>
+                            <option value='friends'>friends</option>
+                            <option value='public'>public</option>
+                        </select>
+                    </div>
+                    <div className={'opttag'}>
+                        <strong>Search:</strong>
+                    </div>
+                    <div>
+                        <input
+                            type='text'
+                            size='10'
+                            ref={searchRef}
+                            onChange={filterchange}
+                        />
+                    </div>
+                </div>
+                <div className={state.mode === 'add' ? 'addbox' : 'nodisp'}>
+                    <div>Hello add</div>
                 </div>
             </div>
             <div className={'users'}>
