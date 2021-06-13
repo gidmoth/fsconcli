@@ -1,4 +1,8 @@
 .User {
-    flex:  1 20rem;
-    margin-top: 1rem;
+    display: inline;
+    /* justify-self: end; */
   }
+
+.UserAct {
+    display: inline;
+}

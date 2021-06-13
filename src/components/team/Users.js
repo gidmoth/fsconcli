@@ -3,10 +3,9 @@
  */
 
 import './Users.css';
-import User from './User'
 import { useContext, useEffect, useReducer, useRef } from 'react'
 import { XmlContext } from '../XmlContext'
-import Filterlist from './Filterlist'
+import UserList from './UserList'
 
 function uniquify(val, idx, arr) {
     return arr.findIndex(elem => elem.id === val.id) === idx
@@ -38,10 +37,10 @@ function getUserList(users, ctxf, filter) {
     if (filter === '') {
         return ctxret
     }
-    let namesmatch = ctxret.filter(usr => usr.name.includes(filter))
-    let emailsmatch = ctxret.filter(usr => usr.email.includes(filter))
-    let polymatch = ctxret.filter(usr => usr.polymac.includes(filter))
-    let idmatch = ctxret.filter(usr => usr.id.includes(filter))
+    let namesmatch = ctxret.filter(usr => usr.name.toLowerCase().includes(filter.toLowerCase()))
+    let emailsmatch = ctxret.filter(usr => usr.email.toLowerCase().includes(filter.toLowerCase()))
+    let polymatch = ctxret.filter(usr => usr.polymac.toLowerCase().includes(filter.toLowerCase()))
+    let idmatch = ctxret.filter(usr => usr.id.toLowerCase().includes(filter.toLowerCase()))
     let retarr = [...namesmatch, ...emailsmatch, ...polymatch, ...idmatch]
     return retarr.filter(uniquify)
 }
@@ -91,8 +90,8 @@ function Users(props) {
 
     useEffect(() => {
         dispatch({ e: 'newuserlist', data: getUserList(users, state.ctxfilter, state.filter) })
-        if  (state.filter === '') {
-            searchRef.current.value=''
+        if (state.filter === '') {
+            searchRef.current.value = ''
         }
     }, [state.ctxfilter, state.filter])
 
@@ -146,8 +145,10 @@ function Users(props) {
                     <div>Hello add</div>
                 </div>
             </div>
-            <div className={'users'}>
-                {state.userlist.map(usr => <User user={usr} />)}
+            <div>
+                <UserList
+                    list={state.userlist}
+                />
             </div>
         </>
     )

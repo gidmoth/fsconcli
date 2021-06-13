@@ -15,13 +15,23 @@ function User(props) {
         email,
         polymac
     } = props.user
-    
-    return (
+
+    const { expand } = props
+
+    return (<>
         <div className="User">
-            User: {name}<br/>
-            email: {email}
+            <strong>{name}</strong><br />
+            {id}
         </div>
-    )
+        <div className='UserAct'>
+            <span
+                className={'symb'}
+                onClick={() => expand({truth: true, data: props.user})}
+            >
+                more_horiz
+            </span>
+        </div>
+    </>)
 }
 
 export default User;

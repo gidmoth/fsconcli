@@ -1,0 +1,7 @@
+.UserList {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap:  1.5rem  .5rem;
+    align-items: center;
+}
