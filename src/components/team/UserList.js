@@ -33,6 +33,7 @@ function UserList(props) {
                 <div className="UserList">
                     {list.map(usr => <User
                         user={usr}
+                        key={usr.id}
                         expand={handleExpand}
                     />)}
                 </div>

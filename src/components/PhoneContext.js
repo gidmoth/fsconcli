@@ -19,6 +19,12 @@ function reducer(currstate, event) {
         case 'popped': {
             return { ...currstate, pop: false }
         }
+        case 'immiset':  {
+            return { ...currstate, immicall: event.value }
+        }
+        case 'immiclear': {
+            return  { ...currstate, immicall:  ''}
+        }
         case 'talk': {
             return { ...currstate, talking: true, dtmf: true }
         }
@@ -80,6 +86,7 @@ function PhoneProvider(props) {
         dialtamplate: '',
         caller: '',
         callee: '',
+        immicall: ''
     })
 
     //  connect media
@@ -360,7 +367,7 @@ function PhoneProvider(props) {
         phoneRef.current = new UserAgent(userAgentOptions)
 
         // create registerer
-        regRef.current = new Registerer(phoneRef.current)
+        regRef.current = new Registerer(phoneRef.current, {'expires': 3600})
 
         //  start and register
         phoneRef.current.start()

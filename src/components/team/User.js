@@ -3,6 +3,7 @@
  */
 
 import './User.css';
+import CallBtn from  '../CallBtn'
 
 function User(props) {
 
@@ -30,6 +31,7 @@ function User(props) {
             >
                 more_horiz
             </span>
+            <CallBtn number={id} />
         </div>
     </>)
 }

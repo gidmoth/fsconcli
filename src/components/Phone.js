@@ -37,6 +37,15 @@ function Phone(props) {
         }
     }, [phonestate.pop])
 
+    // react to callbtn
+    useEffect(() => {
+        if  (phonestate.immicall !== '') {
+            makeCall(phonestate.immicall, mediaEl.current, optmediaEl.current)
+            phonedispatch({ type: 'immiclear' })
+            headdispatcher({ type: 'phonering' })
+        }
+    }, [phonestate.immicall])
+
     // toggle Video
     function toggleVid() {
         phonedispatch({ type: 'togglevid' })
