@@ -140,6 +140,12 @@ function Users(props) {
                             onChange={filterchange}
                         />
                     </div>
+                    <div  className={'opttag'}>
+                        <strong>Matchcount:</strong>
+                    </div>
+                    <div>
+                        {state.userlist.length}
+                    </div>
                 </div>
                 <div className={state.mode === 'add' ? 'addbox' : 'nodisp'}>
                     <div>Hello add</div>

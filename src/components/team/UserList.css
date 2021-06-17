@@ -1,7 +1,19 @@
 .UserList {
     margin-top: 2rem;
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap:  1.5rem  .5rem;
+    grid-template-columns: 1fr 1fr;
+    gap:  1.5rem  2rem;
     align-items: center;
 }
+
+.UserExpanded  {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:  rgba(211, 211, 211,.9);
+    padding-left:  2rem;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+}
+

@@ -1,6 +1,7 @@
 .User {
     display: inline;
-    /* justify-self: end; */
+    justify-self: end;
+    text-align: right;
   }
 
 .UserAct {

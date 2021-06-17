@@ -1,0 +1,13 @@
+.usrclose {
+    align-self: flex-end;
+}
+
+.unhead {
+    font-size: 1.5rem;
+}
+
+.expusract {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0rem 2rem;
+}
