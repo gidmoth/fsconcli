@@ -11,3 +11,32 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0rem 2rem;
 }
+
+.expusredit {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0rem 2rem;
+}
+
+.greencheck {
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    color: green;
+}
+
+.redcheck {
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    color: red;
+}
+
+.nocheck {
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}

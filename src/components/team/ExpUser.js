@@ -4,9 +4,20 @@
 
 import { useReducer, useRef } from 'react'
 import './ExpUser.css';
-import CallBtn from  '../CallBtn'
+import CallBtn from '../CallBtn'
 
-function reducer(evn)  {
+function reducer(currstate, evn) {
+    switch (evn.e) {
+        case 'eNameChange': {
+            return { ...currstate, eName: evn.data }
+        }
+        case 'modeswitch': {
+            return { ...currstate, mode: evn.data }
+        }
+        default: {
+            console.log('hit default :-(')
+        }
+    }
 
 }
 
@@ -23,18 +34,25 @@ function ExpUser(props) {
         polymac
     } = props.user
 
+    const eNameRef = useRef()
+
     const { expand } = props
 
     const [state, dispatch] = useReducer(reducer, {
-        mode: 'default'
+        mode: 'default',
+        eName: name,
     })
 
+    function eNameChange(evn) {
+        dispatch({ e: 'eNameChange', data: evn.target.value })
+    }
+
     switch (state.mode) {
-        case  'default':  {
-            return  (<>
+        case 'default': {
+            return (<>
                 <div
-                className={'symb usrclose'}
-                onClick={()  => expand({truth:  false,  data: null})}
+                    className={'symb usrclose'}
+                    onClick={() => expand({ truth: false, data: null })}
                 >close</div>
                 <div className={'unhead'}><strong>{name}</strong></div>
                 <dl>
@@ -53,16 +71,58 @@ function ExpUser(props) {
                 </dl>
                 <div className={'expusract'}>
                     <CallBtn number={id} />
-                    <span className={'symb'}>edit</span>
-                    <span className={'symb'}>person_remove</span>
+                    <span
+                        className={'symb nocheck'}
+                        onClick={() => dispatch({ e: 'modeswitch', data: 'edit' })}
+                    >edit</span>
+                    <span className={'symb nocheck'}>person_remove</span>
                 </div>
             </>)
         }
-        default:  {
+        case 'edit': {
+            return (<>
+                <div
+                    className={'symb usrclose'}
+                    onClick={() => expand({ truth: false, data: null })}
+                >close</div>
+                <div className={'unhead'}><strong>{name}</strong></div>
+                <dl>
+                    <dt>new Name:</dt>
+                    <dd>
+                        <input
+                            type='text'
+                            size='15'
+                            ref={eNameRef}
+                            onChange={eNameChange}
+                            value={state.eName}
+                        />
+                    </dd>
+                    <dt>email:</dt>
+                    <dd>{email}</dd>
+                    <dt>Context:</dt>
+                    <dd>{context}</dd>
+                    <dt>Password:</dt>
+                    <dd>{password}</dd>
+                    <dt>Polycom  MAC:</dt>
+                    <dd>{polymac}</dd>
+                    <dt>Conference  pin:</dt>
+                    <dd>{conpin}</dd>
+                </dl>
+                <div className={'expusract'}>
+                    <span className={'symb nockeck'}>replay</span>
+                    <span
+                        className={'symb nocheck'}
+                        onClick={() => dispatch({ e: 'modeswitch', data: 'default' })}
+                    >edit_off</span>
+                    <span className={'symb greencheck'}>check</span>
+                </div>
+            </>)
+        }
+        default: {
             console.log('hit default :-(')
         }
     }
-    
+
 }
 
 export default ExpUser;
