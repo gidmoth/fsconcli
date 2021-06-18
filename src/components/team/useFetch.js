@@ -5,9 +5,10 @@
 import { useState } from "react";
 
 function useFetch(apiorigin) {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     function get(url) {
+        setLoading(true)
         return new Promise((resolve, reject) => {
             fetch(apiorigin + url, {
                 method: 'GET',
@@ -30,6 +31,7 @@ function useFetch(apiorigin) {
     }
 
     function post(url, body) {
+        setLoading(true)
         return new Promise((resolve, reject) => {
             fetch(apiorigin + url, {
                 method: "POST",

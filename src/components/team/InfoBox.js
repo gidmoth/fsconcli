@@ -64,7 +64,7 @@ function InfoBox(props) {
             return (
                 <div className={'infobox'}>
                     <div className={'infboxCont'}>
-                        <Users />
+                        <Users apiorigin={apiorigin}/>
                     </div>
                 </div>
             )

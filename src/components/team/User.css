@@ -7,3 +7,10 @@
 .UserAct {
     display: inline;
 }
+
+.padsymb {
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}

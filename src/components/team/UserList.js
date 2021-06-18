@@ -13,7 +13,8 @@ function UserList(props) {
     const [expuser, setExpuser] = useState(null)
 
     const {
-        list
+        list,
+        apiorigin
     } = props
 
     function handleExpand(obj) {
@@ -45,6 +46,7 @@ function UserList(props) {
                     <ExpUser
                         user={expuser}
                         expand={handleExpand}
+                        apiorigin={apiorigin}
                     />
                 </div>
             )

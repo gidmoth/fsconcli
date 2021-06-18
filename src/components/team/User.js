@@ -26,7 +26,7 @@ function User(props) {
         </div>
         <div className='UserAct'>
             <span
-                className={'symb'}
+                className={'symb padsymb'}
                 onClick={() => expand({truth: true, data: props.user})}
             >
                 more_horiz

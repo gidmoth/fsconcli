@@ -75,6 +75,8 @@ function reducer(currstate, evn) {
 
 function Users(props) {
 
+    const { apiorigin } = props
+
     const { xmlState } = useContext(XmlContext)
 
     const { users } = xmlState
@@ -93,7 +95,7 @@ function Users(props) {
         if (state.filter === '') {
             searchRef.current.value = ''
         }
-    }, [state.ctxfilter, state.filter])
+    }, [state.ctxfilter, state.filter, users])
 
     function filterchange(evn) {
         dispatch({ e: 'filterchange', data: evn.target.value })
@@ -154,6 +156,7 @@ function Users(props) {
             <div>
                 <UserList
                     list={state.userlist}
+                    apiorigin={apiorigin}
                 />
             </div>
         </>
