@@ -12,6 +12,18 @@
     gap: 0rem 2rem;
 }
 
+.addusract {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0rem 2rem;
+}
+
+.addusrnoact {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0rem 2rem;
+}
+
 .expusredit {
     display: grid;
     grid-template-columns: 1fr 1fr;

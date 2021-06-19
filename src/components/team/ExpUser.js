@@ -66,7 +66,7 @@ function ExpUser(props) {
 
     const { expand, apiorigin } = props
 
-    const { get, post, loading } = useFetch(apiorigin)
+    const { post, loading } = useFetch(apiorigin)
 
     const [state, dispatch] = useReducer(reducer, {
         mode: 'default',
@@ -103,6 +103,19 @@ function ExpUser(props) {
             postbody[0].conpin = state.eConpin
         }
         post('/api/users/mod', postbody)
+            .then(data => {
+                dispatch({ e: 'editresult', data: data })
+                console.log(data)
+            })
+            .catch(err => {
+                dispatch({ e: 'modeswitch', data: 'result' })
+                console.log(err)
+            })
+    }
+
+    function deluser() {
+        let postbody  = [{id: id}]
+        post('/api/users/del', postbody)
             .then(data => {
                 dispatch({ e: 'editresult', data: data })
                 console.log(data)
@@ -240,7 +253,7 @@ function ExpUser(props) {
                             size='15'
                             onChange={evn => dispatch({ e: 'ePass', data: evn.target.value })}
                             value={state.ePass}
-                        /><br /><small>(leave empty to generate a new one)</small>
+                        /><br /><small>(empty to generate new)</small>
                     </dd>
                     <dt>new Polycom  MAC:</dt>
                     <dd>
@@ -249,7 +262,7 @@ function ExpUser(props) {
                             size='15'
                             onChange={evn => dispatch({ e: 'ePolymac', data: evn.target.value })}
                             value={state.ePolymac}
-                        />
+                        /><br /><small>(empty  or 'none' to disable< br />polycom provisioning)</small>
                     </dd>
                     <dt>new Conference pin:</dt>
                     <dd>

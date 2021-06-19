@@ -6,6 +6,7 @@ import './Users.css';
 import { useContext, useEffect, useReducer, useRef } from 'react'
 import { XmlContext } from '../XmlContext'
 import UserList from './UserList'
+import Addbox from './Addbox'
 
 function uniquify(val, idx, arr) {
     return arr.findIndex(elem => elem.id === val.id) === idx
@@ -142,7 +143,7 @@ function Users(props) {
                             onChange={filterchange}
                         />
                     </div>
-                    <div  className={'opttag'}>
+                    <div className={'opttag'}>
                         <strong>Matchcount:</strong>
                     </div>
                     <div>
@@ -150,7 +151,9 @@ function Users(props) {
                     </div>
                 </div>
                 <div className={state.mode === 'add' ? 'addbox' : 'nodisp'}>
-                    <div>Hello add</div>
+                    <Addbox
+                        apiorigin={apiorigin}
+                    />
                 </div>
             </div>
             <div>
