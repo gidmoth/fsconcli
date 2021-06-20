@@ -33,6 +33,9 @@ function reducer(currstate, evn) {
         case 'editresult': {
             return { ...currstate, mode: 'result', result: evn.data }
         }
+        case 'delresult': {
+            return { ...currstate, mode: 'delresult', result: evn.data }
+        }
         case 'resedit': {
             return {
                 ...currstate,
@@ -114,10 +117,10 @@ function ExpUser(props) {
     }
 
     function deluser() {
-        let postbody  = [{id: id}]
+        let postbody = [{ id: id }]
         post('/api/users/del', postbody)
             .then(data => {
-                dispatch({ e: 'editresult', data: data })
+                dispatch({ e: 'delresult', data: data })
                 console.log(data)
             })
             .catch(err => {
@@ -178,6 +181,31 @@ function ExpUser(props) {
                 }
             }
         }
+        case 'delresult': {
+            switch (true) {
+                case state.result.done.length > 0: {
+                    return (<>
+                        <div
+                            className={'symb usrclose'}
+                            onClick={() => expand({ truth: false, data: null })}
+                        >close</div>
+                        <div className={'greencheck'}>success</div>
+                        <div><strong>deletet {state.result.done[0].name}</strong></div>
+                    </>)
+                }
+                case state.result.failed.length > 0: {
+                    return (<>
+                        <div
+                            className={'symb usrclose'}
+                            onClick={() => expand({ truth: false, data: null })}
+                        >close</div>
+                        <div className={'redcheck'}>error</div>
+                        <div><strong>{state.result.failed[0].error}</strong></div>
+                        <div>user {state.result.failed[0].user.name} unchanged.</div>
+                    </>)
+                }
+            }
+        }
         case 'default': {
             return (<>
                 <div
@@ -205,7 +233,30 @@ function ExpUser(props) {
                         className={'symb nocheck'}
                         onClick={() => dispatch({ e: 'modeswitch', data: 'edit' })}
                     >edit</span>
-                    <span className={'symb nocheck'}>person_remove</span>
+                    <span
+                        className={'symb nocheck'}
+                        onClick={() => dispatch({ e: 'modeswitch', data: 'askdel' })}
+                    >person_remove</span>
+                </div>
+            </>)
+        }
+        case 'askdel': {
+            return (<>
+                <div
+                    className={'symb usrclose'}
+                    onClick={() => expand({ truth: false, data: null })}
+                >close</div>
+                <div>Are you sure to delete</div>
+                <div className={'unhead'}><strong>{name}?</strong></div>
+                <div className={'addusract'}>
+                    <span
+                        className={'symb redcheck'}
+                        onClick={() => dispatch({ e: 'modeswitch', data: 'default' })}
+                    >close</span>
+                    <span
+                        className={'symb greencheck'}
+                        onClick={() => deluser()}
+                    >check</span>
                 </div>
             </>)
         }
@@ -277,7 +328,7 @@ function ExpUser(props) {
                 <div className={'expusract'}>
                     <span
                         className={'symb nockeck'}
-                        onClick={() => dispatch({ e: 'resedit',  data: props.user })}
+                        onClick={() => dispatch({ e: 'resedit', data: props.user })}
                     >replay</span>
                     <span
                         className={'symb nocheck'}

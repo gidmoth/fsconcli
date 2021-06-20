@@ -5,6 +5,7 @@
 import { useContext, useState } from 'react'
 //import { XmlContext } from '../XmlContext'
 import  Users from './Users'
+import Conferences from './Conferences'
 
 import './InfoBox.css';
 
@@ -73,7 +74,7 @@ function InfoBox(props) {
             return (
                 <div className={'infobox'}>
                     <div className={'infboxCont'}>
-                        conferences
+                        <Conferences apiorigin={apiorigin}/>
                     </div>
                 </div>
             )
