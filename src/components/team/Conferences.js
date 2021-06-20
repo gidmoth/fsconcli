@@ -5,6 +5,8 @@
 import './Users.css';
 import { useContext, useEffect, useReducer, useRef } from 'react'
 import { XmlContext } from '../XmlContext'
+import ConfList from './ConfList'
+import AddConfbox from './AddConfbox'
 
 
 function uniquify(val, idx, arr) {
@@ -153,7 +155,7 @@ function Conferences(props) {
                             onChange={e => dispatch({ e: 'typefilterch', data: `${e.target.value}` })}
                         >
                             <option value='all'>all</option>
-                            {conferencetypes.map(type => <option value={type}>{type}</option>)}
+                            {conferencetypes.map(type => <option value={type} key={type}>{type}</option>)}
                         </select>
                     </div>
                     <div className={'opttag'}>
@@ -175,11 +177,18 @@ function Conferences(props) {
                     </div>
                 </div>
                 <div className={state.mode === 'add' ? 'addbox' : 'nodisp'}>
-                    <div>addconf here</div>
+                    <AddConfbox
+                        apiorigin={apiorigin}
+                        conferencetypes={conferencetypes}
+                    />
                 </div>
             </div>
             <div>
-                <div>conflist here</div>
+                <ConfList
+                    list={state.conflist}
+                    apiorigin={apiorigin}
+                    conferencetypes={conferencetypes}
+                />
             </div>
         </>
     )
