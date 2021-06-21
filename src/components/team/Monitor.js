@@ -2,22 +2,36 @@
  * render the monitor
  */
 
-import { useContext } from 'react'
-import { LiveContext } from '../LiveContext'
+import { useContext,  useState } from 'react'
+//import { LiveContext } from '../LiveContext'
+import './Info.css';
+import MonHead from './MonHead'
+import MoniBox from './MoniBox'
 
-//import './Info.css';
 
+function Monitor(props) {
 
-function Monitor() {
+    const [mode, setMode] = useState('registrations')
 
-    const { liveState, dispatch } = useContext(LiveContext)
+    const { apiorigin } = props
+
+    function handleModeChange(mode) {
+        setMode(mode)
+    }
+
+    //const { liveState, dispatch } = useContext(LiveContext)
 
 
     return (
-        <div>
-            {
-                JSON.stringify(liveState)
-            }
+        <div className={'infocontainer'}>
+            <MonHead
+                handleModeChange={handleModeChange}
+                mode={mode}
+            />
+            <MoniBox
+                mode={mode}
+                apiorigin={apiorigin}
+            />
         </div>
     )
 }

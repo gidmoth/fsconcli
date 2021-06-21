@@ -86,7 +86,9 @@ function TeamApp(props) {
           user={props.user}
           apiorigin={props.apiorigin}
         /> :
-        <Monitor />
+        <Monitor
+          apiorigin={props.apiorigin}
+        />
       }
       {loading && <p>Loading...</p>}
       {!socket && <p>Initializing socket...</p>}

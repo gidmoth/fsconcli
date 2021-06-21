@@ -1,0 +1,17 @@
+.RegList {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:  1.5rem  2rem;
+    align-items: center;
+}
+
+.RegUser {
+    display: inline;
+    justify-self: end;
+    text-align: right;
+  }
+
+.RegUserAct {
+    display: inline;
+}
