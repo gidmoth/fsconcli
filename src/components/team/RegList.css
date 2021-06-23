@@ -22,3 +22,67 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.liveconf {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: 
+        "nam   nam   nam   nam"
+        "ccall cmute clock ckick"
+        
+        "flu   flu   flc   flc";
+}
+
+.flrusr {
+    grid-area: flu;
+    align-self: center;
+    justify-self: end;
+    text-align: end;
+}
+
+.flrctr {
+    grid-area: flc;
+    align-self: center;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.callconf {
+    grid-area: ccall;
+}
+
+.muteconf {
+    grid-area: cmute;
+}
+
+.lockconf {
+    grid-area: clock;
+}
+
+.kickconf {
+    grid-area: ckick;
+}
+
+.ctr {
+    align-self: center;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.namec {
+    grid-area: nam;
+    justify-self: center;
+    font-size: 1.5rem;
+}
+
+.confctl {
+    grid-area: ctl;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
