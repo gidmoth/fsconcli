@@ -3,6 +3,7 @@
  */
 
 import  RegList from './RegList'
+import ConfLive from './ConfLive'
 import './InfoBox.css';
 
 
@@ -28,7 +29,7 @@ function MoniBox(props) {
             return (
                 <div className={'infobox'}>
                     <div className={'infboxCont'}>
-                        <div>showing confs</div>
+                        <ConfLive />
                     </div>
                 </div>
             )
