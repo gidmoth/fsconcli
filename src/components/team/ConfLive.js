@@ -10,7 +10,11 @@ import { XmlContext } from '../XmlContext'
 import CallBtn from '../CallBtn'
 
 function getConfList(lconfs, xmlconfs) {
-    return lconfs.map(c => ({ ...c, num: xmlconfs.find(k => k.name === c.name).num }))
+    return lconfs.map(c => ({
+        ...c,
+        num: xmlconfs.find(k => k.name === c.name).num,
+        type: xmlconfs.find(k => k.name === c.name).type
+    }))
 }
 
 
@@ -25,31 +29,67 @@ function LiveConf(props) {
         lastleave,
         memcount,
         members,
-        num
+        num,
+        type
     } = props.conf
 
     return (
         <div className={'liveconf'}>
-            <div className='namec'><strong>{name}</strong></div>
+            <div className='namec'>
+                <strong>{name}</strong><br />
+                <span className='smalltit'>{type}</span>
+            </div>
+            <div className='mcl'>
+                <strong>Membercount:</strong>
+            </div>
+            <div className='mcr'>
+                {memcount}
+            </div>
             <div className='callconf'>
                 <CallBtn number={num} />
             </div>
-            <div className='muteconf ctr symb'>
-                mic_off
+            <div className='muteconf'>
+                <span className='ctr symb'>mic_off</span>
             </div>
-            <div className='lockconf ctr symb'>
-                lock
+            <div className='lockconf'>
+                <span className='ctr symb'>lock</span>
             </div>
-            <div className='kickconf ctr symb'>
-                remove_circle
+            <div className='kickconf'>
+                <span className='ctr symb'>remove_circle</span>
+            </div>
+            <div className='rec'>
+                <strong>Recording</strong>
+            </div>
+            <div className='rstat'>
+                {recording.status}
+            </div>
+            <div className='ropt'>
+                <span className='ctr symb'>not_started</span>
+            </div>
+            <div className='rstst'>
+                <span className='ctr symb'>fiber_manual_record</span>
+            </div>
+            <div className='flrfl'>
+                <strong>Floor</strong>
             </div>
             <div className='flrusr'>
-                <strong>floor</strong><br />{floor.name}
+                {floor.name}
             </div>
-            <div className='symb flrctr'>
-                {floor.mute ? 'mic' : 'mic_off'}
+            <div className='jol'>
+                <strong>Lastjoin:</strong>
             </div>
-            {/* <div>{JSON.stringify(props.conf)}</div> */}
+            <div className='jor'>
+                {lastjoin.name}
+            </div>
+            <div className='lel'>
+                <strong>Lastleave:</strong>
+            </div>
+            <div className='ler'>
+                {JSON.stringify(lastleave)}
+            </div>
+            <div className='flrctr'>
+                <span className='symb'>{floor.mute ? 'mic' : 'mic_off'}</span>
+            </div>
         </div>
     )
 }
