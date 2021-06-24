@@ -7,6 +7,7 @@ import './RegList.css'
 import { useContext, useEffect, useReducer, useRef } from 'react'
 import { LiveContext } from '../LiveContext'
 import { XmlContext } from '../XmlContext'
+import { SocketContext } from '../SocketContext'
 import CallBtn from '../CallBtn'
 
 function getConfList(lconfs, xmlconfs) {
@@ -33,6 +34,112 @@ function LiveConf(props) {
         type
     } = props.conf
 
+    const { sendreq } = useContext(SocketContext)
+
+    function lockunlock() {
+        switch (locked) {
+            case true: {
+                sendreq({
+                    req: 'exec',
+                    call: 'unlock',
+                    conference: name
+                })
+                break
+            }
+            case false: {
+                sendreq({
+                    req: 'exec',
+                    call: 'lock',
+                    conference: name
+                })
+                break
+            }
+            default: {
+                console.log('hit default :-(')
+            }
+        }
+    }
+
+    function recstst() {
+        switch (recording.status) {
+            case 'norec': {
+                sendreq({
+                    req: 'exec',
+                    call: 'startrec',
+                    conference: name
+                })
+                break
+            }
+            default: {
+                sendreq({
+                    req: 'exec',
+                    call: 'stoprec',
+                    conference: name
+                })
+            }
+        }
+    }
+
+    function recopt() {
+        switch (recording.status) {
+            case 'norec': {
+                console.log('nothing  to  do!')
+                break
+            }
+            case 'running': {
+                sendreq({
+                    req: 'exec',
+                    call: 'pauserec',
+                    conference: name
+                })
+                break
+            }
+            case 'paused': {
+                sendreq({
+                    req: 'exec',
+                    call: 'resumerec',
+                    conference: name
+                })
+                break
+            }
+            default: {
+                console.log('hit default :-(')
+            }
+        }
+    }
+
+    function optrecbtn() {
+        switch (recording.status) {
+            case 'running': {
+                return 'pause'
+            }
+            case 'paused': {
+                return 'play_arrow'
+            }
+            default: {
+                return ''
+            }
+        }
+    }
+
+    function togusrmute(confid, mute) {
+        if (mute) {
+            sendreq({
+                req: 'memexec',
+                call: 'unmute',
+                conference: name,
+                member: confid
+            })
+        } else {
+            sendreq({
+                req: 'memexec',
+                call: 'mute',
+                conference: name,
+                member: confid
+            })
+        }
+    }
+
     return (
         <div className={'liveconf'}>
             <div className='namec'>
@@ -49,31 +156,56 @@ function LiveConf(props) {
                 <CallBtn number={num} />
             </div>
             <div className='muteconf'>
-                <span className='ctr symb'>mic_off</span>
+                <span
+                    className='ctr symb'
+                    onClick={() => sendreq({
+                        req: 'exec',
+                        call: 'muteall',
+                        conference: name
+                    })}
+                >mic_off</span>
             </div>
             <div className='lockconf'>
-                <span className='ctr symb'>lock</span>
+                <span
+                    className='ctr symb'
+                    onClick={lockunlock}
+                >{locked ? 'lock_open' : 'lock'}</span>
             </div>
             <div className='kickconf'>
-                <span className='ctr symb'>remove_circle</span>
+                <span
+                    className='ctr symb'
+                    onClick={() => sendreq({
+                        req: 'exec',
+                        call: 'kickall',
+                        conference: name
+                    })}
+                >remove_circle</span>
             </div>
             <div className='rec'>
                 <strong>Recording</strong>
             </div>
             <div className='rstat'>
-                {recording.status}
+                <strong>{recording.status}</strong>
             </div>
             <div className='ropt'>
-                <span className='ctr symb'>not_started</span>
+                <span
+                    className='ctr symb'
+                    onClick={recopt}
+                >{optrecbtn()}</span>
             </div>
             <div className='rstst'>
-                <span className='ctr symb'>fiber_manual_record</span>
+                <span
+                    className='ctr symb'
+                    onClick={recstst}
+                >{recording.status === 'norec' ?
+                    'fiber_manual_record' :
+                    'stop'}</span>
             </div>
             <div className='flrfl'>
                 <strong>Floor</strong>
             </div>
             <div className='flrusr'>
-                {floor.name}
+                <strong>{floor.name}</strong>
             </div>
             <div className='jol'>
                 <strong>Lastjoin:</strong>
@@ -85,10 +217,13 @@ function LiveConf(props) {
                 <strong>Lastleave:</strong>
             </div>
             <div className='ler'>
-                {JSON.stringify(lastleave)}
+                {lastleave.name === undefined ? 'nobody' : lastleave.name}
             </div>
             <div className='flrctr'>
-                <span className='symb'>{floor.mute ? 'mic' : 'mic_off'}</span>
+                <span
+                    className='symb'
+                    onClick={() => togusrmute(floor.confid, floor.mute)}
+                >{floor.mute ? 'mic' : 'mic_off'}</span>
             </div>
         </div>
     )
@@ -122,17 +257,33 @@ function ConfLive() {
         dispatch({ e: 'newlist', data: getConfList(conferences, xmlState.conferences) })
     }, [conferences, xmlState])
 
+    switch (true) {
+        case conferences.length === 0: {
+            return (
+                <>
+                    <div className={'LconList'}>
+                        No active conferences.
+                    </div>
+                </>
+            )
+        }
+        case conferences.length > 0: {
+            return (
+                <>
+                    <div className={'LconList'}>
+                        {state.conflist.map(conf => <LiveConf
+                            conf={conf}
+                            key={conf.name}
+                        />)}
+                    </div>
+                </>
+            )
+        }
+        default: {
+            console.log('hit default :-(')
+        }
+    }
 
-    return (
-        <>
-            <div className={'LconList'}>
-                {state.conflist.map(conf => <LiveConf
-                    conf={conf}
-                    key={conf.name}
-                />)}
-            </div>
-        </>
-    )
 }
 
 export default ConfLive;

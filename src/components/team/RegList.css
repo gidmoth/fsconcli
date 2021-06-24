@@ -26,6 +26,7 @@
 .liveconf {
     display: grid;
     gap: 1rem;
+    margin-bottom: 4rem;
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
         "nam   nam   nam   nam"
