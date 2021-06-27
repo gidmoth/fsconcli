@@ -6,7 +6,7 @@ import './UserList.css'
 function ConfList(props) {
 
     const [expanded, setExpanded] = useState(false)
-    const [expconf, setExpuser] = useState(null)
+    const [expconf, setExpconf] = useState(null)
 
     const {
         list,
@@ -16,7 +16,7 @@ function ConfList(props) {
 
     function handleExpand(obj) {
         setExpanded(obj.truth)
-        setExpuser(obj.data)
+        setExpconf(obj.data)
     }
 
     /* useEffect(() => {

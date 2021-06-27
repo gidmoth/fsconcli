@@ -185,7 +185,7 @@ function LiveConf(props) {
                 <strong>Recording</strong>
             </div>
             <div className='rstat'>
-                <strong>{recording.status}</strong>
+                Status:<br /><strong>{recording.status}</strong>
             </div>
             <div className='ropt'>
                 <span
@@ -205,7 +205,7 @@ function LiveConf(props) {
                 <strong>Floor</strong>
             </div>
             <div className='flrusr'>
-                <strong>{floor.name}</strong>
+                Name:<br /><strong>{floor.name}</strong>
             </div>
             <div className='jol'>
                 <strong>Lastjoin:</strong>

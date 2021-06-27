@@ -50,6 +50,7 @@
     grid-area: rstat;
     align-self: center;
     justify-self: end;
+    text-align: end;
 }
 
 .ropt {
@@ -68,6 +69,7 @@
     grid-area: flu;
     align-self: center;
     justify-self: end;
+    text-align: end;
 }
 
 .flrfl {

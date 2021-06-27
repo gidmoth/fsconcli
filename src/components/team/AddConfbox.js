@@ -190,7 +190,7 @@ function AddConfbox(props) {
                         <dd>
                             <select
                                 value={state.eType}
-                                onChange={evn => dispatch({ e: 'eType', data: evn.target.value })}
+                                onChange={evn => dispatch({ e: 'aType', data: evn.target.value })}
                             >
                                 {conferencetypes.map(type => <option value={type} key={type}>{type}</option>)}
                             </select>
