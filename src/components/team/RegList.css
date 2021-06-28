@@ -32,12 +32,13 @@
         "nam   nam   nam   nam"
         "ccall cmute clock ckick"
         ".     flf   flf   ."
-        "flu   flu   flc   flc"
+        "flu   flu   flc   ."
         ".     rec   rec   ."
         "rstat rstat rstst ropt"
         "mcl   mcl   mcr   mcr"
         "jol   jol   jor   jor"
-        "lel   lel   ler   ler";
+        "lel   lel   ler   ler"
+        "mlist mlist mlist mlist";
 }
 
 .rec {
@@ -101,6 +102,10 @@
 
 .kickconf {
     grid-area: ckick;
+}
+
+.mlist {
+    grid-area: mlist;
 }
 
 .arec  {

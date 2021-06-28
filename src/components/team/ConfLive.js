@@ -4,7 +4,8 @@
 
 import './Users.css';
 import './RegList.css'
-import { useContext, useEffect, useReducer, useRef } from 'react'
+import './MemList.css'
+import { useContext, useEffect, useReducer, useRef, useState } from 'react'
 import { LiveContext } from '../LiveContext'
 import { XmlContext } from '../XmlContext'
 import { SocketContext } from '../SocketContext'
@@ -18,6 +19,26 @@ function getConfList(lconfs, xmlconfs) {
     }))
 }
 
+function getMemList(mems, filter) {
+    if (filter === '') {
+        return mems
+    }
+    return mems.filter(mem => mem.name.toLowerCase().includes(filter.toLowerCase()))
+}
+
+function memreducer(currstate, evn) {
+    switch (evn.e) {
+        case 'filterchange': {
+            return { ...currstate, filter: evn.data }
+        }
+        case 'newlist': {
+            return { ...currstate, memlist: evn.data }
+        }
+        default: {
+            console.log('hit default!')
+        }
+    }
+}
 
 function LiveConf(props) {
 
@@ -35,6 +56,21 @@ function LiveConf(props) {
     } = props.conf
 
     const { sendreq } = useContext(SocketContext)
+
+    const [open, setOpen] = useState(false)
+
+    const [state, dispatch] = useReducer(memreducer, {
+        filter: '',
+        memlist: getMemList(members, ''),
+    })
+
+    useEffect(() => {
+        dispatch({ e: 'newlist', data: getMemList(members, state.filter) })
+    }, [members, state.filter])
+
+    function togopen() {
+        setOpen(!open)
+    }
 
     function lockunlock() {
         switch (locked) {
@@ -140,6 +176,15 @@ function LiveConf(props) {
         }
     }
 
+    function kickmem(confid) {
+        sendreq({
+            req: 'memexec',
+            call: 'kick',
+            conference: name,
+            member: confid
+        })
+    }
+
     return (
         <div className={'liveconf'}>
             <div className='namec'>
@@ -221,9 +266,56 @@ function LiveConf(props) {
             </div>
             <div className='flrctr'>
                 <span
-                    className='symb'
+                    className='ctr symb'
                     onClick={() => togusrmute(floor.confid, floor.mute)}
                 >{floor.mute ? 'mic' : 'mic_off'}</span>
+            </div>
+            <div className='mlist'>
+                <div className='listmems'>
+                    <div className='mltit'>
+                        <strong>MEMBERS</strong>
+                    </div>
+                    <div className='mlexp'>
+                        <span
+                            className='ctr symb'
+                            onClick={togopen}
+                        >{open ? 'expand_less' : 'expand_more'}
+                        </span>
+                    </div>
+                    <div className={open ? 'memse' : 'nodisp'}>
+                        <strong>search:</strong>
+                    </div>
+                    <div className={open ? 'msfl' : 'nodisp'}>
+                        <input
+                            type='text'
+                            size='10'
+                            onChange={e => dispatch({ e: 'filterchange', data: e.target.value })}
+                        />
+                    </div>
+                    <div className={open ? 'mmml' : 'nodisp'}>
+                        {state.memlist.map(mem => <div
+                            className='mInList'
+                            key={mem.confid}
+                        >
+                            <div className='mname'>
+                                <strong>{mem.name}</strong>
+                            </div>
+                            <div className='macta'>
+                                <span
+                                    className='ctr symb'
+                                    onClick={() => togusrmute(mem.confid, mem.mute)}
+                                >{mem.mute ? 'mic' : 'mic_off'}
+                                </span>
+                            </div>
+                            <div className='mactb'>
+                                <span
+                                    className='ctr symb'
+                                    onClick={() => kickmem(mem.confid)}
+                                >remove_circle</span>
+                            </div>
+                        </div>)}
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -239,8 +331,6 @@ function reducer(currstate, evn) {
         }
     }
 }
-
-
 
 function ConfLive() {
 
