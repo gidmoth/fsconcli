@@ -99,7 +99,7 @@ function RegList() {
             <div className={'RegList'}>
                 {state.userlist.map(usr => <RegUser
                     user={usr}
-                    key={usr.id}
+                    key={usr.sipcon}
                 />)}
             </div>
         </>
