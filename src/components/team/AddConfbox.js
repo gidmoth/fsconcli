@@ -15,6 +15,9 @@ function reducer(currstate, evn) {
         case 'addresult': {
             return { ...currstate, mode: 'result', result: evn.data }
         }
+        case 'rebresult': {
+            return { ...currstate, mode: 'rebresult', result: evn.data }
+        }
         case 'redraw': {
             return {
                 ...currstate,
@@ -55,11 +58,11 @@ function AddConfbox(props) {
         result: null
     })
 
-    /* useEffect(() => {
+    useEffect(() => {
         if (loading) {
             dispatch({ e: 'modeswitch', data: 'loading' })
         }
-    }, [loading]) */
+    }, [loading])
 
     function addconf() {
         let postbody = [{ context: state.aContext, type: state.aType }]
@@ -95,13 +98,25 @@ function AddConfbox(props) {
             .then(data => {
                 dispatch({ e: 'addresult', data: data })
                 console.log(data)
-                get('/api/conferences/rebuildcontacts')
+                /* get('/api/conferences/rebuildcontacts')
                     .then(dat => {
                         console.log(dat)
                     })
                     .catch(err => {
                         console.log(err)
-                    })
+                    }) */
+            })
+            .catch(err => {
+                dispatch({ e: 'modeswitch', data: 'result' })
+                console.log(err)
+            })
+    }
+
+    function rebuildcontacts() {
+        get('/api/conferences/rebuildcontacts')
+            .then(data => {
+                dispatch({ e: 'rebresult', data: data })
+                console.log(data)
             })
             .catch(err => {
                 dispatch({ e: 'modeswitch', data: 'result' })
@@ -135,6 +150,11 @@ function AddConfbox(props) {
                                 <dt>Type:</dt>
                                 <dd>{state.result.done[0].type}</dd>
                             </dl>
+                            <div >
+                                <button onClick={() => rebuildcontacts()}>
+                                    rebuild contacts
+                                </button>
+                            </div>
                             <div className={'addusnoract'}>
                                 <span
                                     className={'symb greencheck'}
@@ -160,6 +180,20 @@ function AddConfbox(props) {
                     )
                 }
             }
+        }
+        case 'rebresult': {
+            return (
+                <div className='AddUser'>
+                    <div className={'greencheck'}>success</div>
+                    <div><strong>new contacts</strong></div>
+                    <div className={'addusnoract'}>
+                        <span
+                            className={'symb greencheck'}
+                            onClick={() => dispatch({ e: 'redraw' })}
+                        >check</span>
+                    </div>
+                </div>
+            )
         }
         case 'default': {
             return (

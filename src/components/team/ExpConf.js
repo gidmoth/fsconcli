@@ -30,6 +30,9 @@ function reducer(currstate, evn) {
         case 'delresult': {
             return { ...currstate, mode: 'delresult', result: evn.data }
         }
+        case 'rebresult': {
+            return { ...currstate, mode: 'rebresult', result: evn.data }
+        }
         case 'resedit': {
             return {
                 ...currstate,
@@ -68,14 +71,11 @@ function ExpConf(props) {
         result: null
     })
 
-    /* useEffect(() => {
-        let  prevmode = state.mode
+    useEffect(() => {
         if (loading) {
             dispatch({ e: 'modeswitch', data: 'loading' })
-        } else {
-            dispatch({e: 'modeswitch', data: prevmode})
         }
-    }, [loading]) */
+    }, [loading])
 
     function modconf() {
         let postbody = [{ num: num, context: state.eContext, type: state.eType }]
@@ -99,13 +99,13 @@ function ExpConf(props) {
             .then(data => {
                 dispatch({ e: 'editresult', data: data })
                 console.log(data)
-                get('/api/conferences/rebuildcontacts')
+                /* get('/api/conferences/rebuildcontacts')
                     .then(dat => {
                         console.log(dat)
                     })
                     .catch(err => {
                         console.log(err)
-                    })
+                    }) */
             })
             .catch(err => {
                 dispatch({ e: 'modeswitch', data: 'result' })
@@ -119,13 +119,13 @@ function ExpConf(props) {
             .then(data => {
                 dispatch({ e: 'delresult', data: data })
                 console.log(data)
-                get('/api/conferences/rebuildcontacts')
+                /* get('/api/conferences/rebuildcontacts')
                     .then(dat => {
                         console.log(dat)
                     })
                     .catch(err => {
                         console.log(err)
-                    })
+                    }) */
             })
             .catch(err => {
                 dispatch({ e: 'modeswitch', data: 'result' })
@@ -133,6 +133,17 @@ function ExpConf(props) {
             })
     }
 
+    function rebuildcontacts() {
+        get('/api/conferences/rebuildcontacts')
+            .then(data => {
+                dispatch({ e: 'rebresult', data: data })
+                console.log(data)
+            })
+            .catch(err => {
+                dispatch({ e: 'modeswitch', data: 'result' })
+                console.log(err)
+            })
+    }
 
     switch (state.mode) {
         case 'loading': {
@@ -164,6 +175,11 @@ function ExpConf(props) {
                             <dt>Type:</dt>
                             <dd>{state.result.done[0].type}</dd>
                         </dl>
+                        <div >
+                            <button onClick={() => rebuildcontacts()}>
+                                rebuild contacts
+                            </button>
+                        </div>
                     </>)
                 }
                 case state.result.failed.length > 0: {
@@ -189,6 +205,11 @@ function ExpConf(props) {
                         >close</div>
                         <div className={'greencheck'}>success</div>
                         <div><strong>deletet {state.result.done[0].name}</strong></div>
+                        <div >
+                            <button onClick={() => rebuildcontacts()}>
+                                rebuild contacts
+                            </button>
+                        </div>
                     </>)
                 }
                 case state.result.failed.length > 0: {
@@ -203,6 +224,16 @@ function ExpConf(props) {
                     </>)
                 }
             }
+        }
+        case 'rebresult': {
+            return (<>
+                <div
+                    className={'symb usrclose'}
+                    onClick={() => expand({ truth: false, data: null })}
+                >close</div>
+                <div className={'greencheck'}>success</div>
+                <div><strong>new contacts</strong></div>
+            </>)
         }
         case 'default': {
             return (<>
