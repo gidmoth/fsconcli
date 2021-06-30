@@ -175,7 +175,7 @@ function ExpConf(props) {
                             <dt>Type:</dt>
                             <dd>{state.result.done[0].type}</dd>
                         </dl>
-                        <div >
+                        <div className='rebcont'>
                             <button onClick={() => rebuildcontacts()}>
                                 rebuild contacts
                             </button>
@@ -205,7 +205,7 @@ function ExpConf(props) {
                         >close</div>
                         <div className={'greencheck'}>success</div>
                         <div><strong>deletet {state.result.done[0].name}</strong></div>
-                        <div >
+                        <div className='rebcont'>
                             <button onClick={() => rebuildcontacts()}>
                                 rebuild contacts
                             </button>

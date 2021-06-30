@@ -150,7 +150,7 @@ function AddConfbox(props) {
                                 <dt>Type:</dt>
                                 <dd>{state.result.done[0].type}</dd>
                             </dl>
-                            <div >
+                            <div className='rebcont'>
                                 <button onClick={() => rebuildcontacts()}>
                                     rebuild contacts
                                 </button>
