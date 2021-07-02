@@ -178,7 +178,7 @@ function reducer(currstate, event) {
                         }
                         default: {
                             let memidx = returnstate.conferences[confidx].members
-                                .findIndex(mem => mem.id === event.data)
+                                .findIndex(mem => mem.confid === event.data)
                             switch (event.event) {
                                 case 'delMember': {
                                     returnstate.conferences[confidx].lastleave = returnstate.conferences[confidx].members[memidx]
@@ -188,14 +188,14 @@ function reducer(currstate, event) {
                                 }
                                 case 'mute': {
                                     returnstate.conferences[confidx].members[memidx].mute = true
-                                    if (returnstate.conferences[confidx].members[memidx].id === returnstate.conferences[confidx].floor.id) {
+                                    if (returnstate.conferences[confidx].members[memidx].confid === returnstate.conferences[confidx].floor.confid) {
                                         returnstate.conferences[confidx].floor.mute = true
                                     }
                                     return returnstate
                                 }
                                 case 'unmute': {
                                     returnstate.conferences[confidx].members[memidx].mute = false
-                                    if (returnstate.conferences[confidx].members[memidx].id === returnstate.conferences[confidx].floor.id) {
+                                    if (returnstate.conferences[confidx].members[memidx].confid === returnstate.conferences[confidx].floor.confid) {
                                         returnstate.conferences[confidx].floor.mute = false
                                     }
                                     return returnstate
