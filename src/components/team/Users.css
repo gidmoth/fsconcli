@@ -46,3 +46,30 @@
 .greyed {
     color: rgba(0, 0, 0, 0.3);
 }
+
+.reclist {
+    margin-top: 1rem;
+}
+
+.reclistitm {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+    "nam   nam   nam   nam   nam"
+    ".     .     del   .     .";
+}
+
+.recnam {
+    grid-area: nam;
+    align-self: center;
+    justify-self: end;
+    text-align: end;
+}
+
+.recdel {
+    grid-area: del;
+    align-self: center;
+    justify-self: end;
+    text-align: end;
+}

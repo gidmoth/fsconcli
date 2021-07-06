@@ -6,6 +6,7 @@ import { useContext, useState } from 'react'
 //import { XmlContext } from '../XmlContext'
 import  Users from './Users'
 import Conferences from './Conferences'
+import Recordings from './Recordings'
 
 import './InfoBox.css';
 
@@ -75,6 +76,15 @@ function InfoBox(props) {
                 <div className={'infobox'}>
                     <div className={'infboxCont'}>
                         <Conferences apiorigin={apiorigin}/>
+                    </div>
+                </div>
+            )
+        }
+        case 'recordings': {
+            return (
+                <div className={'infobox'}>
+                    <div className={'infboxCont'}>
+                        <Recordings apiorigin={apiorigin}/>
                     </div>
                 </div>
             )
