@@ -1,5 +1,4 @@
 import './MPcontainer.css';
-import { useState, useEffect } from 'react';
 import Phone from './Phone'
 import Menu from './Menu'
 

@@ -183,6 +183,7 @@ function Addbox(props) {
                     )
                 }
             }
+            break;
         }
         case 'default': {
             return (

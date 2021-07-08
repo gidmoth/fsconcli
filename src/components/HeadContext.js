@@ -28,6 +28,7 @@ function reducer(currstate, event) {
                             }
                         }
                     }
+                    break;
                 }
                 case false: {
                     switch (currstate.menuicn) {

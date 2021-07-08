@@ -2,7 +2,7 @@
  * render a userlist
  */
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import User from './User'
 import ExpUser  from './ExpUser'
 import './UserList.css'

@@ -3,7 +3,7 @@
  */
 
 import { UserAgent, Registerer, Inviter, SessionState } from 'sip.js'
-import { createContext, useState, useRef, useReducer } from 'react'
+import { createContext, useRef, useReducer } from 'react'
 
 function reducer(currstate, event) {
     switch (event.type) {

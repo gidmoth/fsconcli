@@ -9,12 +9,7 @@ function User(props) {
 
     const {
         name,
-        id,
-        password,
-        conpin,
-        context,
-        email,
-        polymac
+        id
     } = props.user
 
     const { expand } = props

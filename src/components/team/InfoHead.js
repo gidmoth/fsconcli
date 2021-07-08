@@ -2,7 +2,7 @@
  * render Infoheadline
  */
 
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 //import { XmlContext } from '../XmlContext'
 
 import './InfoHead.css';

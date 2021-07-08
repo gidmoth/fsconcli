@@ -2,7 +2,7 @@
  * render an expanded user
  */
 
-import { useEffect, useReducer, useRef } from 'react'
+import { useEffect, useReducer } from 'react'
 import './ExpUser.css';
 import CallBtn from '../CallBtn'
 import useFetch from './useFetch'
@@ -180,6 +180,7 @@ function ExpUser(props) {
                     </>)
                 }
             }
+            break;
         }
         case 'delresult': {
             switch (true) {
@@ -205,6 +206,7 @@ function ExpUser(props) {
                     </>)
                 }
             }
+            break;
         }
         case 'default': {
             return (<>

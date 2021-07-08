@@ -3,7 +3,6 @@
  */
 
 import { useContext, useState } from 'react'
-import User from './User'
 import { XmlContext } from '../XmlContext'
 import InfoHead from './InfoHead'
 import InfoBox from './InfoBox'

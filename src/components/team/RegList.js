@@ -45,8 +45,7 @@ function RegUser(props) {
     const {
         name,
         sipcon,
-        id,
-        regid
+        id
     } = props.user
 
     return (<>

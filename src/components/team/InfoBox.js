@@ -2,8 +2,6 @@
  * render Infobox
  */
 
-import { useContext, useState } from 'react'
-//import { XmlContext } from '../XmlContext'
 import  Users from './Users'
 import Conferences from './Conferences'
 import Recordings from './Recordings'

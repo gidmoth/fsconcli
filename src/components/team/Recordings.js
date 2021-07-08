@@ -3,7 +3,7 @@
  */
 
 import './Users.css';
-import { useContext, useEffect, useReducer, useRef, useState } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 import useFetch from './useFetch'
 
 function reducer(currstate, evn) {

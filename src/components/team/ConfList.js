@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Conf from './Conf'
 import ExpConf  from './ExpConf'
 import './UserList.css'

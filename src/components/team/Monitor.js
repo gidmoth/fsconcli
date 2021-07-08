@@ -2,7 +2,7 @@
  * render the monitor
  */
 
-import { useContext,  useState } from 'react'
+import { useState } from 'react'
 //import { LiveContext } from '../LiveContext'
 import './Info.css';
 import MonHead from './MonHead'

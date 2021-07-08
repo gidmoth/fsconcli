@@ -14,9 +14,7 @@ function Phone(props) {
         initPhone,
         phonedispatch,
         phonestate,
-        answerCall,
-        makeCall,
-        endCall
+        makeCall
     } = useContext(PhoneContext)
 
     const { user, apiorigin } = props

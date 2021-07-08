@@ -1,5 +1,5 @@
 import './PhoneButtons.css';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PhoneContext } from './PhoneContext'
 import { XmlContext } from './XmlContext';
 
@@ -314,11 +314,8 @@ function PhoneButtons(props) {
     const [showPinfo, setShowPinfo] = useState(false)
 
     const {
-        phonedispatch,
         phonestate,
-        answerCall,
         makeCall,
-        endCall,
         sendDtmf
     } = useContext(PhoneContext)
 

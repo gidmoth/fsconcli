@@ -180,6 +180,7 @@ function AddConfbox(props) {
                     )
                 }
             }
+            break;
         }
         case 'rebresult': {
             return (

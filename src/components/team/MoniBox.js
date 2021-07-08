@@ -10,8 +10,7 @@ import './InfoBox.css';
 function MoniBox(props) {
 
     const {
-        mode,
-        apiorigin
+        mode
     } = props
 
 

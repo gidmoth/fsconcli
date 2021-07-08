@@ -10,7 +10,6 @@
      const {
          name,
          num,
-         context,
          type
      } = props.conf
  
