@@ -120,8 +120,8 @@ function reducer(currstate, event) {
                     return returnstate
                 }
                 case 'delReg': {
-                    let newregs = returnstate.registrations.filter(user => user.id !== event.user.id)
-                    returnstate.registrations = newregs
+                    let regidx = returnstate.registrations.findIndex(user => user.regid === event.user.regid)
+                    returnstate.registrations.splice(regidx, 1)
                     return returnstate
                 }
                 default: {

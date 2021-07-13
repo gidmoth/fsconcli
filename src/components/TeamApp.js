@@ -42,6 +42,7 @@ function TeamApp(props) {
     if (socket.current) {
       console.log(`GOT SOCKET!!`)
       socket.current.onmessage = function (evn) {
+        console.log(evn)
         dispatcher(JSON.parse(evn.data))
       }
       socket.current.onopen = function (evn) {

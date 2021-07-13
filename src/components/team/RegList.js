@@ -93,12 +93,18 @@ function RegList() {
                             onChange={e => dispatch({ e: 'filterchange', data: e.target.value })}
                         />
                     </div>
+                    <div className={'opttag'}>
+                        <strong>Matchcount:</strong>
+                    </div>
+                    <div>
+                        {state.userlist.length}
+                    </div>
                 </div>
             </div>
             <div className={'RegList'}>
                 {state.userlist.map(usr => <RegUser
                     user={usr}
-                    key={usr.id}
+                    key={usr.regid}
                 />)}
             </div>
         </>
