@@ -21,6 +21,9 @@ function reducer(currstate, event) {
     function confcopy(conf) {
         return {
             name: conf.name,
+            type: conf.type,
+            num: conf.num,
+            context: conf.context,
             recording: { ...conf.recording },
             locked: conf.locked,
             floor: usercopy(conf.floor),

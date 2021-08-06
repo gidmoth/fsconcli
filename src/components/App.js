@@ -11,6 +11,7 @@ import { HeadProvider } from './HeadContext'
 import { PhoneProvider } from './PhoneContext'
 
 const TeamApp = React.lazy(() => import('./TeamApp'))
+const FriendsApp = React.lazy(() => import('./FriendsApp'))
 
 function App(props) {
 
@@ -44,6 +45,25 @@ function App(props) {
                                     <HeadProvider>
                                         <Suspense fallback={<p>Loading...</p>}>
                                             <TeamApp user={user} apiorigin={props.apiorigin} />
+                                        </Suspense>
+                                    </HeadProvider>
+                                </XmlProvider>
+                            </LiveProvider>
+                        </SocketProvider>
+                    </PhoneProvider>
+                </div>
+            );
+        }
+        case 'friends': {
+            return (
+                <div className="App">
+                    <PhoneProvider >
+                        <SocketProvider>
+                            <LiveProvider>
+                                <XmlProvider>
+                                    <HeadProvider>
+                                        <Suspense fallback={<p>Loading...</p>}>
+                                            <FriendsApp user={user} apiorigin={props.apiorigin} />
                                         </Suspense>
                                     </HeadProvider>
                                 </XmlProvider>

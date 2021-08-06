@@ -10,7 +10,6 @@ import { LiveContext } from '../LiveContext'
 import { SocketContext } from '../SocketContext'
 import CallBtn from '../CallBtn'
 
-
 function getMemList(mems, filter) {
     if (filter === '') {
         return mems
