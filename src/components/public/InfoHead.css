@@ -1,0 +1,58 @@
+.infohead {
+    display:  flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.headchoice  {
+    display:  flex;
+    flex-direction: row;
+    color: #282c34;
+    align-items: center;
+    justify-content: center;
+    /* text-decoration: underline; */
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-top: 1rem;
+}
+
+.headchoice:hover {
+    cursor: pointer;
+  /* color:  #ffefd5; */
+    color: #db7093;
+}
+
+.ihtxt {
+    font-size: calc(1rem + 2vmin);
+}
+
+.ihtxt:hover {
+    color: #db7093;
+    cursor: pointer;
+}
+
+.infoselect {
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #282c34;
+    color: white;
+    padding: 1rem;
+}
+
+.infoheadline {
+    font-size: calc(1rem + 2vmin);
+    font-weight: bold;
+}
+
+.noavail {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.nodisp  {
+    display: none;
+}
+
