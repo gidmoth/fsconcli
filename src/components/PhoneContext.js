@@ -97,6 +97,7 @@ function PhoneProvider(props) {
             }
         });
         element.srcObject = streamRef.current;
+        element.volume = 1
         element.play()
         if (phonestate.video) {
             session.sessionDescriptionHandler.peerConnection.getSenders().forEach((sender) => {
