@@ -9,7 +9,7 @@ import ConfList from './ConfList'
 
 
 function uniquify(val, idx, arr) {
-    return arr.findIndex(elem => elem.id === val.id) === idx
+    return arr.findIndex(elem => elem.num === val.num) === idx
 }
 
 function getConfList(confs, ctxf, typef, filter) {
