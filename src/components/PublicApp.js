@@ -97,4 +97,4 @@ function PublicApp(props) {
   );
 }
 
-export default FriendsApp;
+export default PublicApp;

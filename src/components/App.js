@@ -12,6 +12,7 @@ import { PhoneProvider } from './PhoneContext'
 
 const TeamApp = React.lazy(() => import('./TeamApp'))
 const FriendsApp = React.lazy(() => import('./FriendsApp'))
+const PublicApp = React.lazy(() => import('./PublicApp'))
 
 function App(props) {
 
@@ -64,6 +65,25 @@ function App(props) {
                                     <HeadProvider>
                                         <Suspense fallback={<p>Loading...</p>}>
                                             <FriendsApp user={user} apiorigin={props.apiorigin} />
+                                        </Suspense>
+                                    </HeadProvider>
+                                </XmlProvider>
+                            </LiveProvider>
+                        </SocketProvider>
+                    </PhoneProvider>
+                </div>
+            );
+        }
+        case 'public': {
+            return (
+                <div className="App">
+                    <PhoneProvider >
+                        <SocketProvider>
+                            <LiveProvider>
+                                <XmlProvider>
+                                    <HeadProvider>
+                                        <Suspense fallback={<p>Loading...</p>}>
+                                            <PublicApp user={user} apiorigin={props.apiorigin} />
                                         </Suspense>
                                     </HeadProvider>
                                 </XmlProvider>

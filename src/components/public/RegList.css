@@ -30,126 +30,13 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
         "nam   nam   nam   nam"
-        "ccall cmute clock ckick"
-        ".     flf   flf   ."
-        "flu   flu   flc   ."
-        ".     rec   rec   ."
-        "rstat rstat rstst ropt"
-        "mcl   mcl   mcr   mcr"
-        "jol   jol   jor   jor"
-        "lel   lel   ler   ler"
+        "call  call  call  call"
+        "conf  conf  conf  conf"
         "mlist mlist mlist mlist";
-}
-
-.rec {
-    grid-area: rec;
-    align-self: center;
-    justify-self: center;
-}
-
-.rstat {
-    grid-area: rstat;
-    align-self: center;
-    justify-self: end;
-    text-align: end;
-}
-
-.ropt {
-    grid-area: ropt;
-    align-self: center;
-    justify-self: center;
-}
-
-.rstst {
-    grid-area: rstst;
-    align-self: center;
-    justify-self: center;
-}
-
-.flrusr {
-    grid-area: flu;
-    align-self: center;
-    justify-self: end;
-    text-align: end;
-}
-
-.flrfl {
-    grid-area: flf;
-    align-self: center;
-    justify-self: center;
-}
-
-.flrctr {
-    grid-area: flc;
-    align-self: center;
-    padding-left: .25rem;
-    padding-right: .25rem;
-    margin-left: .5rem;
-    margin-right: .5rem;
-}
-
-.callconf {
-    grid-area: ccall;
-}
-
-.muteconf {
-    grid-area: cmute;
-}
-
-.lockconf {
-    grid-area: clock;
-}
-
-.kickconf {
-    grid-area: ckick;
 }
 
 .mlist {
     grid-area: mlist;
-}
-
-.arec  {
-    grid-area: reca;
-}
-
-.brec {
-    grid-area: recb;
-}
-
-.mcl {
-    grid-area: mcl;
-    align-self: center;
-    justify-self: end;
-}
-
-.mcr {
-    grid-area: mcr;
-    align-self: center;
-    justify-self: start;
-}
-
-.jol {
-    grid-area: jol;
-    align-self: center;
-    justify-self: end;
-}
-
-.jor {
-    grid-area: jor;
-    align-self: center;
-    justify-self: start;
-}
-
-.lel {
-    grid-area: lel;
-    align-self: center;
-    justify-self: end;
-}
-
-.ler {
-    grid-area: ler;
-    align-self: center;
-    justify-self: start;
 }
 
 .ctr {
@@ -167,11 +54,15 @@
     font-size: 1.5rem;
 }
 
-.confctl {
-    grid-area: ctl;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+.callc {
+    grid-area: call;
+    justify-self: center;
+    text-align: center;
+}
+
+.confsh {
+    grid-area: conf;
+    justify-self: center;
 }
 
 .smalltit {

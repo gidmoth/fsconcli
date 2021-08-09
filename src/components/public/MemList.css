@@ -37,23 +37,13 @@
     gap: 1rem;
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
-        "mname  mname macta mactb";
+        "mname  mname mname mname";
 }
 
 .mname {
     grid-area: mname;
     align-self: center;
-    justify-self: end;
-}
-
-.macta {
-    grid-area: macta;
-    align-self: center;
-}
-
-.mactb {
-    grid-area: mactb;
-    align-self: center;
+    justify-self: center;
 }
 
 .mmml {
