@@ -9,8 +9,7 @@ function User(props) {
 
     const {
         name,
-        id,
-        email
+        id
     } = props.user
 
     const { expand } = props
@@ -18,8 +17,7 @@ function User(props) {
     return (<>
         <div className="User">
             <strong>{name}</strong><br />
-            {id}<br />
-            {email}
+            {id}
         </div>
         <div className='UserAct'>
             <span
