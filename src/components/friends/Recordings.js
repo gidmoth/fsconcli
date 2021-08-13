@@ -45,7 +45,7 @@
      const { get, post } = useFetch(apiorigin)
  
      function getRecs() {
-         get('/friendsrec')
+         get('/fr/friendsrec')
              .then(data => {
                  dispatch({ e: 'newall', data: data })
                  dispatch({ e: 'newreclist', data: getRecList(data.files, state.filter) })
@@ -66,7 +66,7 @@
      }
  
      function recdel(rec) {
-         post('/delfriendsrec', [{ file: rec }])
+         post('/fr/delfriendsrec', [{ file: rec }])
              .then(data => {
                  console.log(data)
                  getRecs()
