@@ -124,7 +124,7 @@
              {state.reclist.map(rec => <div className='reclistitm' key={rec}>
                  <div className='recnam'>
                      <a
-                         href={apiorigin + '/api/recordings' + '/' + rec}
+                         href={apiorigin + '/fr/friendsrec' + '/' + rec}
                          download={rec}
                      >{rec}</a>
                  </div>
