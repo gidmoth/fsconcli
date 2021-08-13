@@ -50,6 +50,10 @@ function InfoHead(props) {
                     className={mode === 'conferences' ? 'ihtxt noavail' : 'ihtxt'}
                     onClick={() => handleChoice('conferences')}
                 >conferences</span>
+                <span
+                    className={mode === 'recordings' ? 'ihtxt noavail' : 'ihtxt'}
+                    onClick={() => handleChoice('recordings')}
+                >recordings</span>
             </div>
         </div>
     )
