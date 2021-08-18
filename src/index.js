@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App'
 
-const  apiorigin = 'https://host.example.com'
+const  apiorigin = window.location.origin
 
 ReactDOM.render(
   <React.StrictMode>
