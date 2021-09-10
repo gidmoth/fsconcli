@@ -11,25 +11,15 @@ import MoniBox from './MoniBox'
 
 function Monitor(props) {
 
-    const [mode, setMode] = useState('registrations')
-
     const { apiorigin } = props
-
-    function handleModeChange(mode) {
-        setMode(mode)
-    }
 
     //const { liveState, dispatch } = useContext(LiveContext)
 
 
     return (
         <div className={'infocontainer'}>
-            <MonHead
-                handleModeChange={handleModeChange}
-                mode={mode}
-            />
+            <MonHead />
             <MoniBox
-                mode={mode}
                 apiorigin={apiorigin}
             />
         </div>

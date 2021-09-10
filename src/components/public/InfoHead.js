@@ -43,10 +43,6 @@ function InfoHead(props) {
                     onClick={() => handleChoice('account')}
                 >account</span>
                 <span
-                    className={mode === 'users' ? 'ihtxt noavail' : 'ihtxt'}
-                    onClick={() => handleChoice('users')}
-                >users</span>
-                <span
                     className={mode === 'conferences' ? 'ihtxt noavail' : 'ihtxt'}
                     onClick={() => handleChoice('conferences')}
                 >conferences</span>
