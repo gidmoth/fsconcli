@@ -47,7 +47,7 @@ function PublicApp(props) {
       }
       socket.current.onopen = function (evn) {
         sendreq({ req: 'init' })
-        sendreq({ req: 'initreg' })
+        //sendreq({ req: 'initreg' })
       }
       console.log('listener setup!')
       console.log(socket.current)

@@ -2,7 +2,6 @@
  * render Infobox
  */
 
-import  Users from './Users'
 import Conferences from './Conferences'
 import Recordings from './Recordings'
 
@@ -56,15 +55,6 @@ function InfoBox(props) {
                                 <dd>{user.polymac}</dd>
                             </dl>
                         </div>
-                    </div>
-                </div>
-            )
-        }
-        case 'users': {
-            return (
-                <div className={'infobox'}>
-                    <div className={'infboxCont'}>
-                        <Users apiorigin={apiorigin}/>
                     </div>
                 </div>
             )
