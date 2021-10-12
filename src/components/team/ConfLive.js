@@ -32,6 +32,41 @@ function memreducer(currstate, evn) {
     }
 }
 
+function MuteBtn(props) {
+
+    const {
+        mute,
+        togusrmute,
+        confid
+    } = props
+
+    const [hoover, setHoover] = useState(false)
+
+    function toghoover() {
+        setHoover(!hoover)
+    }
+
+    if (mute) {
+        return (
+            <span
+                className='ctr symb'
+                onClick={() => togusrmute(confid, mute)}
+                onMouseEnter={toghoover}
+                onMouseLeave={toghoover}
+            >{hoover ? 'mic' : 'mic_off'}</span>
+        )
+    } else {
+        return (
+            <span
+                className='ctr symb'
+                onClick={() => togusrmute(confid, mute)}
+                onMouseEnter={toghoover}
+                onMouseLeave={toghoover}
+            >{hoover ? 'mic_off' : 'mic'}</span>
+        )
+    }
+}
+
 function LiveConf(props) {
 
     const {
@@ -257,10 +292,11 @@ function LiveConf(props) {
                 {lastleave.name === undefined ? 'nobody' : lastleave.name}
             </div>
             <div className='flrctr'>
-                <span
-                    className='ctr symb'
-                    onClick={() => togusrmute(floor.confid, floor.mute)}
-                >{floor.mute ? 'mic' : 'mic_off'}</span>
+                <MuteBtn
+                    mute={floor.mute}
+                    togusrmute={togusrmute}
+                    confid={floor.confid}
+                />
             </div>
             <div className='mlist'>
                 <div className='listmems'>
@@ -293,11 +329,11 @@ function LiveConf(props) {
                                 <strong>{mem.name}</strong>
                             </div>
                             <div className='macta'>
-                                <span
-                                    className='ctr symb'
-                                    onClick={() => togusrmute(mem.confid, mem.mute)}
-                                >{mem.mute ? 'mic' : 'mic_off'}
-                                </span>
+                                <MuteBtn
+                                    mute={mem.mute}
+                                    togusrmute={togusrmute}
+                                    confid={mem.confid}
+                                />
                             </div>
                             <div className='mactb'>
                                 <span
