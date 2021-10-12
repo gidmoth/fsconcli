@@ -67,6 +67,46 @@ function MuteBtn(props) {
     }
 }
 
+function KickallBtn(props) {
+
+    const {
+        name,
+        sendreq
+    } = props
+
+    const [confirm, setConfirm] = useState(false)
+
+    function togconfirm() {
+        setConfirm(!confirm)
+    }
+
+    if (confirm) {
+        return (<div className='ctrconfirm'>
+            <span className='ctr'>kick all?</span><br />
+            <span
+                className='ctrred symb'
+                onClick={togconfirm}
+            >close</span>
+            <span
+                className='ctrgreen symb'
+                onClick={() => sendreq({
+                    req: 'exec',
+                    call: 'kickall',
+                    conference: name
+                })}
+            >check</span>
+        </div>
+        )
+    } else {
+        return (
+            <span
+                className='ctr symb'
+                onClick={togconfirm}
+            >remove_circle</span>
+        )
+    }
+}
+
 function LiveConf(props) {
 
     const {
@@ -244,14 +284,10 @@ function LiveConf(props) {
                 >{locked ? 'lock_open' : 'lock'}</span>
             </div>
             <div className='kickconf'>
-                <span
-                    className='ctr symb'
-                    onClick={() => sendreq({
-                        req: 'exec',
-                        call: 'kickall',
-                        conference: name
-                    })}
-                >remove_circle</span>
+                <KickallBtn
+                    name={name}
+                    sendreq={sendreq}
+                />
             </div>
             <div className='rec'>
                 <strong>Recording</strong>

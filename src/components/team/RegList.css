@@ -160,6 +160,22 @@
     margin-right: .5rem;
 }
 
+.ctrconfirm {
+    position: fixed;
+}
+
+.ctrred {
+    color: red;
+    align-self: left;
+    margin-right: .5rem;
+}
+
+.ctrgreen {
+    color: green;
+    align-self: right;
+    margin-left: .5rem;
+}
+
 .namec {
     grid-area: nam;
     justify-self: center;
