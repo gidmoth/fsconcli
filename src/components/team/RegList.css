@@ -161,7 +161,7 @@
 }
 
 .ctrconfirm {
-    position: fixed;
+    position: absolute;
 }
 
 .ctrred {
